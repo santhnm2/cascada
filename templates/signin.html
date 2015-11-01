@@ -1,0 +1,35 @@
+<!doctype html>
+<html>
+	<head>
+		<link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='stylesheets/homestyle.css') }}" />
+		<script type=text/javascript src="{{url_for('static', filename='jquery.js') }}"></script>
+		<h1>My Projects</h1>
+	</head>
+	<script>
+	$(document).ready(function(){
+	    $("button").click(function(){
+	        $("ul").fadeIn("slow");
+	    });
+	});
+	</script>
+
+	<body>
+		<button>Load Projects</button>
+		<ul style="display:none">
+		{% for assignment in name %}
+			<div class="project" id="project">
+				<a href= {{ assignment }}>
+			    <li class="assignments">{{ assignment }}</li>
+			    </a>
+			    <ul>
+			    	<div class="details">
+				    	<li> Revision: {{ name[assignment].getRevision() }} </li>
+				    	<li> Date: {{ name[assignment].getDate() }} </li>
+				    	<li> Message: {{ name[assignment].getMessage() }} </li>
+			    	</div>
+			    </ul>
+		    </div>
+		{% endfor %}
+		</ul>
+	</body>
+</html>
