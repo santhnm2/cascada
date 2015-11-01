@@ -1,0 +1,57 @@
+a{
+	color:white;
+}
+
+ul {
+  list-style-type: none;
+  width: 500px;
+}
+
+li {
+  padding: 10px;
+  overflow: auto;
+}
+
+div {
+	text-align: center;
+}
+
+iframe{
+	width:80%;
+	margin: 50px;
+	background:white;
+}
+
+body{
+	background-color: #3EB378;
+	color:white;
+}
+
+table, th, td {
+	background-color: #7E8280; 
+	font-family: "Times New Roman", Times, serif;
+    border: 1px solid white;
+    border-collapse: collapse;
+}
+
+th{
+	font-size:1.2em;
+}
+
+table{
+	margin: 25px;
+}
+
+td{
+	padding: 15px;
+}
+
+h1,h2{
+	font-family: "Times New Roman", Times, serif;
+	text-align: center;
+}
+
+.comment{
+	margin: 10px;
+	color:black;
+}
