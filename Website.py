@@ -13,7 +13,6 @@ def hello(name=None):
 
 @app.route('/<name>', methods=['GET', 'POST'])
 def hello2(name=None):
-	commentList = getCommentList(assignments[name].getName())
 	return render_template('files.html', name=assignments[name], comments=commentList)
 
 if __name__ == '__main__':

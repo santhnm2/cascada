@@ -14,22 +14,38 @@
 	</script>
 
 	<body>
-		<button>Load Projects</button>
-		<ul style="display:none">
-		{% for assignment in name %}
-			<div class="project" id="project">
-				<a href= {{ assignment }}>
-			    <li class="assignments">{{ assignment }}</li>
-			    </a>
-			    <ul>
-			    	<div class="details">
-				    	<li> Revision: {{ name[assignment].getRevision() }} </li>
-				    	<li> Date: {{ name[assignment].getDate() }} </li>
-				    	<li> Message: {{ name[assignment].getMessage() }} </li>
-			    	</div>
-			    </ul>
-		    </div>
-		{% endfor %}
-		</ul>
+		LOGIN:
+		<br><br>
+		<form action="/" method="post">
+		  Email Address:<br>
+		  <input type="text" name="firstname">
+		  <br>
+		  Password:<br>
+		  <input type="text" name="lastname">
+		  <br><br>
+		  <input type="submit" value="Submit">
+		</form>
+		<br>
+		<br>
+		SIGN UP:
+		<form action="/" method="post">
+		  <br>
+		  Type of User:
+		  <br>
+		  <input type="radio" name="professor" value="professor" checked>Professor
+  		  <br>
+  		  <input type="radio" name="student" value="student">Student
+  		  <br><br>
+		  Email Address:<br>
+		  <input type="text" name="firstname">
+		  <br>
+		  Password:<br>
+		  <input type="text" name="lastname">
+		  <br>
+		  Confirm Password:<br>
+		  <input type="text" name="lastname">
+		  <br><br>
+		  <input type="submit" value="Submit">
+		</form>
 	</body>
 </html>
