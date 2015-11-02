@@ -11,9 +11,5 @@ app = Flask(__name__)
 def hello(name=None):
 	return render_template('signin.html')
 
-@app.route('/<name>', methods=['GET', 'POST'])
-def hello2(name=None):
-	return render_template('files.html', name=assignments[name], comments=commentList)
-
 if __name__ == '__main__':
 	app.run(debug=True)

@@ -1,8 +1,13 @@
 <!doctype html>
 <html>
 	<head>
-		<link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='stylesheets/homestyle.css') }}" />
-		<script type=text/javascript src="{{url_for('static', filename='jquery.js') }}"></script>
+		<script src="{{url_for('static', filename='js/jquery.min.js') }}"></script>
+		<script src="{{url_for('static', filename='js/skel.min.js') }}"></script>
+		<script src="{{url_for('static', filename='js/skel-layers.min.js') }}"></script>
+		<script src="{{url_for('static', filename='js/init.js') }}"></script>
+		<link rel="stylesheet" href="{{url_for('static', filename='css/skel.css') }}" />
+		<link rel="stylesheet" href="{{url_for('static', filename='css/style.css') }}" />
+		<link rel="stylesheet" href="{{url_for('static', filename='css/style-xlarge.css') }}" />
 		<h1>My Projects</h1>
 	</head>
 	<script>
@@ -12,40 +17,149 @@
 	    });
 	});
 	</script>
-
 	<body>
-		LOGIN:
-		<br><br>
-		<form action="/" method="post">
-		  Email Address:<br>
-		  <input type="text" name="firstname">
-		  <br>
-		  Password:<br>
-		  <input type="text" name="lastname">
-		  <br><br>
-		  <input type="submit" value="Submit">
-		</form>
-		<br>
-		<br>
-		SIGN UP:
-		<form action="/" method="post">
-		  <br>
-		  Type of User:
-		  <br>
-		  <input type="radio" name="professor" value="professor" checked>Professor
-  		  <br>
-  		  <input type="radio" name="student" value="student">Student
-  		  <br><br>
-		  Email Address:<br>
-		  <input type="text" name="firstname">
-		  <br>
-		  Password:<br>
-		  <input type="text" name="lastname">
-		  <br>
-		  Confirm Password:<br>
-		  <input type="text" name="lastname">
-		  <br><br>
-		  <input type="submit" value="Submit">
-		</form>
+
+		<!-- Header -->
+			<header id="header">
+				<h1><a href="index.html">Transit</a></h1>
+				<nav id="nav">
+					<ul>
+						<li><a href="index.html">Home</a></li>
+						<li><a href="generic.html">Generic</a></li>
+						<li><a href="elements.html">Elements</a></li>
+						<li><a href="#" class="button special">Sign Up</a></li>
+					</ul>
+				</nav>
+			</header>
+
+		<!-- Main -->
+			<section id="main" class="wrapper">
+				<div class="container">
+
+					<header class="major">
+						<h2>Login</h2>
+					</header>
+
+					<br><br>
+					<form action="/" method="post">
+					  Email Address:<br>
+					  <input type="text" name="firstname">
+					  <br>
+					  Password:<br>
+					  <input type="text" name="lastname">
+					  <br><br>
+					  <input type="submit" value="Submit">
+					</form>
+					<br>
+					<br>
+					<h2>Sign Up</h2>
+					<form action="/" method="post">
+					  <br>
+					  Type of User:
+					  <br>
+					  <div class="4u 12u$(3)">
+						<input type="radio" name="professor" value="professor" checked>
+						<label>Professor</label>
+					  </div>
+					  <div class="4u 12u$(3)">
+						<input type="radio" name="student" value="student">
+						<label>Student</label>
+					  </div>
+					  <!-- <input type="radio" name="professor" value="professor" checked>Professor
+			  		  <br>
+			  		  <input type="radio" name="student" value="student">Student -->
+			  		  <br><br>
+					  Email Address:<br>
+					  <input type="text" name="firstname">
+					  <br>
+					  Password:<br>
+					  <input type="text" name="lastname">
+					  <br>
+					  Confirm Password:<br>
+					  <input type="text" name="lastname">
+					  <br><br>
+					  <input type="submit" value="Submit">
+					</form>
+
+				</div>
+			</section>
+
+		<!-- Footer -->
+			<footer id="footer">
+				<div class="container">
+					<section class="links">
+						<div class="row">
+							<section class="3u 6u(medium) 12u$(small)">
+								<h3>Lorem ipsum dolor</h3>
+								<ul class="unstyled">
+									<li><a href="#">Lorem ipsum dolor sit</a></li>
+									<li><a href="#">Nesciunt itaque, alias possimus</a></li>
+									<li><a href="#">Optio rerum beatae autem</a></li>
+									<li><a href="#">Nostrum nemo dolorum facilis</a></li>
+									<li><a href="#">Quo fugit dolor totam</a></li>
+								</ul>
+							</section>
+							<section class="3u 6u$(medium) 12u$(small)">
+								<h3>Culpa quia, nesciunt</h3>
+								<ul class="unstyled">
+									<li><a href="#">Lorem ipsum dolor sit</a></li>
+									<li><a href="#">Reiciendis dicta laboriosam enim</a></li>
+									<li><a href="#">Corporis, non aut rerum</a></li>
+									<li><a href="#">Laboriosam nulla voluptas, harum</a></li>
+									<li><a href="#">Facere eligendi, inventore dolor</a></li>
+								</ul>
+							</section>
+							<section class="3u 6u(medium) 12u$(small)">
+								<h3>Neque, dolore, facere</h3>
+								<ul class="unstyled">
+									<li><a href="#">Lorem ipsum dolor sit</a></li>
+									<li><a href="#">Distinctio, inventore quidem nesciunt</a></li>
+									<li><a href="#">Explicabo inventore itaque autem</a></li>
+									<li><a href="#">Aperiam harum, sint quibusdam</a></li>
+									<li><a href="#">Labore excepturi assumenda</a></li>
+								</ul>
+							</section>
+							<section class="3u$ 6u$(medium) 12u$(small)">
+								<h3>Illum, tempori, saepe</h3>
+								<ul class="unstyled">
+									<li><a href="#">Lorem ipsum dolor sit</a></li>
+									<li><a href="#">Recusandae, culpa necessita nam</a></li>
+									<li><a href="#">Cupiditate, debitis adipisci blandi</a></li>
+									<li><a href="#">Tempore nam, enim quia</a></li>
+									<li><a href="#">Explicabo molestiae dolor labore</a></li>
+								</ul>
+							</section>
+						</div>
+					</section>
+					<div class="row">
+						<div class="8u 12u$(medium)">
+							<ul class="copyright">
+								<li>&copy; Untitled. All rights reserved.</li>
+								<li>Design: <a href="http://templated.co">TEMPLATED</a></li>
+								<li>Images: <a href="http://unsplash.com">Unsplash</a></li>
+							</ul>
+						</div>
+						<div class="4u$ 12u$(medium)">
+							<ul class="icons">
+								<li>
+									<a class="icon rounded fa-facebook"><span class="label">Facebook</span></a>
+								</li>
+								<li>
+									<a class="icon rounded fa-twitter"><span class="label">Twitter</span></a>
+								</li>
+								<li>
+									<a class="icon rounded fa-google-plus"><span class="label">Google+</span></a>
+								</li>
+								<li>
+									<a class="icon rounded fa-linkedin"><span class="label">LinkedIn</span></a>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</footer>
+
 	</body>
+		
+		
 </html>
