@@ -21,10 +21,10 @@
 
 		<!-- Header -->
 			<header id="header">
-				<h1><a href="index.html">Transit</a></h1>
+				<h1><a href="/">Cascada</a></h1>
 				<nav id="nav">
 					<ul>
-						<li><a href="index.html">Home</a></li>
+						<li><a href="/">Home</a></li>
 						<li><a href="generic.html">Generic</a></li>
 						<li><a href="elements.html">Elements</a></li>
 						<li><a href="#" class="button special">Sign Up</a></li>
@@ -43,42 +43,44 @@
 					<br><br>
 					<form action="/" method="post">
 					  Email Address:<br>
-					  <input type="text" name="firstname">
+					  <input type="text" name="email">
 					  <br>
 					  Password:<br>
-					  <input type="text" name="lastname">
+					  <input type="text" name="password">
 					  <br><br>
 					  <input type="submit" value="Submit">
 					</form>
+					<p style="color:red">{{loginError}}</p>
 					<br>
 					<br>
 					<h2>Sign Up</h2>
-					<form action="/" method="post">
+					<p style="color:red">{{signUpError}}</p>
+					<form action="/createAccount" method="post">
 					  <br>
 					  Type of User:
 					  <br>
 					  <div>
 						  <div>
-							<input type="radio" name="professor" value="professor" checked>
+							<input type="radio" name="accountType" value="professor" checked>
 							<label>Professor</label>
 						  </div>
 						  <div>
-							<input type="radio" name="student" value="student">
+							<input type="radio" name="accountType" value="student">
 							<label>Student</label>
 						  </div>
 					  </div>
-					  <!-- <input type="radio" name="professor" value="professor" checked>Professor
-			  		  <br>
-			  		  <input type="radio" name="student" value="student">Student -->
 			  		  <br><br>
+			  		  Name:<br>
+					  <input type="text" name="name">
+					  <br>
 					  Email Address:<br>
-					  <input type="text" name="firstname">
+					  <input type="text" name="email">
 					  <br>
 					  Password:<br>
-					  <input type="text" name="lastname">
+					  <input type="text" name="password">
 					  <br>
 					  Confirm Password:<br>
-					  <input type="text" name="lastname">
+					  <input type="text" name="password2">
 					  <br><br>
 					  <input type="submit" value="Submit">
 					</form>
