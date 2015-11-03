@@ -42,5 +42,9 @@ def adminPage():
 		unapprovedProfList.append(Professor(unapproved[3], unapproved[0]))
 	return render_template('adminpage.html', approved=approvedProfList, unapproved=unapprovedProfList)
 
+@app.route('/createClass', methods=['GET', 'POST'])
+def createClassPage():
+	return render_template('createClass.html')
+
 if __name__ == '__main__':
 	app.run(debug=True)
