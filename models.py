@@ -13,3 +13,23 @@ def get_user_password(email):
 	    result = cur.execute("SELECT Password FROM UserTable WHERE Email = (?)", (email,))
 	    con.commit()
 	    return result.fetchall()
+
+def get_approved_professors():
+	with sql.connect(database) as con:
+	    cur = con.cursor()
+	    result = cur.execute("SELECT * FROM UserTable WHERE Approved == 'Approved' AND Type = 'Professor'")
+	    con.commit()
+	    return result.fetchall()
+
+def get_unapproved_professors():
+	with sql.connect(database) as con:
+	    cur = con.cursor()
+	    result = cur.execute("SELECT * FROM UserTable WHERE Approved == 'Unapproved' AND Type = 'Professor'")
+	    con.commit()
+	    return result.fetchall()
+
+def approveProfessor(emailAddress):
+	with sql.connect(database) as con:
+		cur = con.cursor()
+		cur.execute("UPDATE UserTable SET Approved = 'Approved' WHERE Email = (?);", (emailAddress,))
+		con.commit()

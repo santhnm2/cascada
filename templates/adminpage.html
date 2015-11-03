@@ -1,0 +1,67 @@
+<!doctype html>
+<html>
+	<head>
+		<script src="{{url_for('static', filename='js/jquery.min.js') }}"></script>
+		<script src="{{url_for('static', filename='js/skel.min.js') }}"></script>
+		<script src="{{url_for('static', filename='js/skel-layers.min.js') }}"></script>
+		<script src="{{url_for('static', filename='js/init.js') }}"></script>
+		<link rel="stylesheet" href="{{url_for('static', filename='css/skel.css') }}" />
+		<link rel="stylesheet" href="{{url_for('static', filename='css/style.css') }}" />
+		<link rel="stylesheet" href="{{url_for('static', filename='css/style-xlarge.css') }}" />
+	</head>
+	<script>
+	</script>
+	<body>
+
+		<!-- Header -->
+			<header id="header">
+				<h1><a href="/">Cascada</a></h1>
+				<nav id="nav">
+					<ul>
+						<li><a href="/">Home</a></li>
+						<li><a href="generic.html">Generic</a></li>
+						<li><a href="elements.html">Elements</a></li>
+						<li><a href="#" class="button special">Sign Up</a></li>
+					</ul>
+				</nav>
+			</header>
+			<br>
+			<h1 style="margin: 0 0 2em 15%;">Approved Professors</h1>
+			<table>
+				<tr>
+					<th>Name</th>
+					<th>Email Address</th>
+				</tr>
+				{% for aprofessor in approved %}
+					<tr>
+						<td>{{ aprofessor.getName() }}</td>
+						<td>{{ aprofessor.getEmailAddress() }}</td>
+					</tr>
+				{% endfor %}
+			</table>
+			<br>
+			<h1 style="margin: 0 0 2em 15%;">Unapproved Professors</h1>
+			<table>
+				<tr>
+					<th>Name</th>
+					<th>Email Address</th>
+					<th>Approve</th>
+				</tr>
+				{% for uprofessor in unapproved %}
+					<tr>
+						<td>{{ uprofessor.getName() }}</td>
+						<td>{{ uprofessor.getEmailAddress() }}</td>
+						<td style="width: 20%;">
+							<form method="POST">
+								<input type="submit" value="Approve">
+								<input type="hidden" name="professorEmail" value="{{ uprofessor.getEmailAddress() }}">
+							</form>
+						</td>
+					</tr>
+				{% endfor %}
+			</table>
+
+	</body>
+		
+		
+</html>
