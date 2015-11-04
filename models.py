@@ -4,7 +4,7 @@ database = "Cascada.db"
 def insert_user(email, password, name, accountType):
 	with sql.connect(database) as con:
 	    cur = con.cursor()
-	    cur.execute("INSERT INTO UserTable (Email, Password, Name, Type) VALUES (?,?,?,?)", (email, password, name, accountType))
+	    cur.execute("INSERT INTO UserTable (Email, Password, Name, Type, Approved) VALUES (?,?,?,?,?)", (email, password, name, accountType, "Unapproved"))
 	    con.commit()
 
 def get_user(email):
@@ -46,3 +46,18 @@ def createClass(emailAddress, className, courseNumber, departmentName, courseDes
 		cur.execute("INSERT INTO ClassTable (Email, ClassName, CourseNumber, DepartmentName, CourseDescription) VALUES (?,?,?,?,?)", (emailAddress, className, courseNumber, departmentName, courseDescription))
 		cur.execute("UPDATE UserTable SET Approved = 'ApprovedWithClass' WHERE Email = (?);", (emailAddress,))
 		con.commit()
+
+def getClass(emailAddress):
+	with sql.connect(database) as con:
+		cur = con.cursor()
+		result = cur.execute("SELECT * FROM ClassTable WHERE Email = (?);", (emailAddress,))
+		con.commit()
+		return result.fetchall()
+
+
+
+
+
+
+
+

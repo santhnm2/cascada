@@ -14,15 +14,9 @@ def mainPage():
 				if account[0][2] == "Admin":
 					resp = make_response(redirect('/adminpage'))
 				elif account[0][2] == 'Professor':
-					isApproved = checkApproved(account[0][0])[0][0]
-					if isApproved == 'Unapproved':
-						resp = make_response(redirect('/unapproved'))
-					elif isApproved == 'Approved':
-						resp = make_response(redirect('/createClass'))
-					else:
-						resp = make_response(redirect('/professorPage'))
+					resp = make_response(redirect('/professorPage'))
 				else:
-					resp = make_response(redirect('logged in as something besides admin'))
+					resp = make_response(redirect('logged in as something besides admin/prof'))
 				resp.set_cookie('username', request.form['email'])
  				return resp
 			else:
@@ -35,10 +29,10 @@ def mainPage():
 
 @app.route('/createAccount', methods=['POST'])
 def createAccount():
-	if len(get_user_password(request.form['email'])) > 0:
+	if len(get_user(request.form['email'])) > 0:
 		return render_template('signin.html', signUpError="Email already exists")
 	insert_user(request.form['email'], request.form['password'], request.form['name'], request.form['accountType'])
-	return "add user page here"
+	return render_template("signin.html")
 
 @app.route('/adminpage', methods=['GET', 'POST'])
 def adminPage():
@@ -81,7 +75,35 @@ def professorPage():
 		departmentName = request.form.get('departmentName', None)
 		courseDescription = request.form.get('courseDescription', None)
 		createClass(email, className, courseNumber, departmentName, courseDescription)
-	return render_template('professor.html')
+
+	account = get_user(request.cookies.get('username'))[0]
+	if account[2] == "Professor":
+		isApproved = checkApproved(account[0])[0][0]
+		if isApproved == 'Unapproved':
+			return redirect('/unapproved')
+		elif isApproved == 'Approved':
+			return redirect('/createClass')
+		else:
+			profClass = getClass(account[0])[0]
+			return render_template('professor.html', currClass=profClass)
+	else:
+		return render_template('signin.html', loginError="Please sign in as professor to visit this page")
+
+	
 
 if __name__ == '__main__':
 	app.run(debug=True)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
