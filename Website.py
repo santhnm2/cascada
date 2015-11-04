@@ -17,8 +17,10 @@ def mainPage():
 					isApproved = checkApproved(account[0][0])[0][0]
 					if isApproved == 'Unapproved':
 						resp = make_response(redirect('/unapproved'))
-					else:
+					elif isApproved == 'Approved':
 						resp = make_response(redirect('/createClass'))
+					else:
+						resp = make_response(redirect('/professorPage'))
 				else:
 					resp = make_response(redirect('logged in as something besides admin'))
 				resp.set_cookie('username', request.form['email'])
@@ -62,7 +64,6 @@ def checkAdmin(req):
 		return False
 	return True
 
-
 @app.route('/createClass', methods=['GET', 'POST'])
 def createClassPage():
 	return render_template('createClass.html')
@@ -70,6 +71,17 @@ def createClassPage():
 @app.route('/unapproved')
 def createUnapprovedPage():
 	return render_template('unapproved.html')
+
+@app.route('/professorPage', methods=['GET', 'POST'])
+def professorPage():
+	if request.method == 'POST':
+		email = request.cookies.get('username')
+		className = request.form.get('className', None)
+		courseNumber = request.form.get('courseNumber', None)
+		departmentName = request.form.get('departmentName', None)
+		courseDescription = request.form.get('courseDescription', None)
+		createClass(email, className, courseNumber, departmentName, courseDescription)
+	return render_template('professor.html')
 
 if __name__ == '__main__':
 	app.run(debug=True)

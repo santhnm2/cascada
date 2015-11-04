@@ -17,7 +17,7 @@ def get_user(email):
 def get_approved_professors():
 	with sql.connect(database) as con:
 	    cur = con.cursor()
-	    result = cur.execute("SELECT * FROM UserTable WHERE Approved == 'Approved' AND Type = 'Professor'")
+	    result = cur.execute("SELECT * FROM UserTable WHERE Approved != 'Unapproved' AND Type = 'Professor'")
 	    con.commit()
 	    return result.fetchall()
 
@@ -37,6 +37,12 @@ def approveProfessor(emailAddress):
 def checkApproved(emailAddress):
 	with sql.connect(database) as con:
 		cur = con.cursor()
-		print emailAddress
 		result = cur.execute("SELECT Approved FROM UserTable WHERE Email = (?);", (emailAddress,))
 		return result.fetchall()
+
+def createClass(emailAddress, className, courseNumber, departmentName, courseDescription):
+	with sql.connect(database) as con:
+		cur = con.cursor()
+		cur.execute("INSERT INTO ClassTable (Email, ClassName, CourseNumber, DepartmentName, CourseDescription) VALUES (?,?,?,?,?)", (emailAddress, className, courseNumber, departmentName, courseDescription))
+		cur.execute("UPDATE UserTable SET Approved = 'ApprovedWithClass' WHERE Email = (?);", (emailAddress,))
+		con.commit()
