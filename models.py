@@ -33,3 +33,10 @@ def approveProfessor(emailAddress):
 		cur = con.cursor()
 		cur.execute("UPDATE UserTable SET Approved = 'Approved' WHERE Email = (?);", (emailAddress,))
 		con.commit()
+
+def checkApproved(emailAddress):
+	with sql.connect(database) as con:
+		cur = con.cursor()
+		print emailAddress
+		result = cur.execute("SELECT Approved FROM UserTable WHERE Email = (?);", (emailAddress,))
+		return result.fetchall()

@@ -13,6 +13,12 @@ def mainPage():
 				resp = ""
 				if account[0][2] == "Admin":
 					resp = make_response(redirect('/adminpage'))
+				elif account[0][2] == 'Professor':
+					isApproved = checkApproved(account[0][0])[0][0]
+					if isApproved == 'Unapproved':
+						resp = make_response(redirect('/unapproved'))
+					else:
+						resp = make_response(redirect('/createClass'))
 				else:
 					resp = make_response(redirect('logged in as something besides admin'))
 				resp.set_cookie('username', request.form['email'])
@@ -60,6 +66,10 @@ def checkAdmin(req):
 @app.route('/createClass', methods=['GET', 'POST'])
 def createClassPage():
 	return render_template('createClass.html')
+
+@app.route('/unapproved')
+def createUnapprovedPage():
+	return render_template('unapproved.html')
 
 if __name__ == '__main__':
 	app.run(debug=True)
