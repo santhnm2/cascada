@@ -29,56 +29,21 @@
 		<!-- Main -->
 			<section id="main" class="wrapper">
 				<div class="container">
-
 					<header class="major">
-						<h2>Login</h2>
+						<h2>Welcome!</h2>
 					</header>
-
+					Class Name:<br>
+					<h3>{{currClass[1]}}</h3>
+					<br>
+					Course Number:<br>
+					<h3>{{currClass[2]}}</h3>
+					<br>
+					Department Name:<br>
+					<h3>{{currClass[3]}}</h3>
+					<br>
+					Course Description:<br>
+					<h3>{{currClass[4]}}</h3>
 					<br><br>
-					<form action="/" method="post">
-					  Email Address:<br>
-					  <input type="text" name="email">
-					  <br>
-					  Password:<br>
-					  <input type="text" name="password">
-					  <br><br>
-					  <input type="submit" value="Submit">
-					</form>
-					<p style="color:red">{{loginError}}</p>
-					<br>
-					<br>
-					<h2>Sign Up</h2>
-					<p style="color:red">{{signUpError}}</p>
-					<form action="/createAccount" method="post">
-					  <br>
-					  Type of User:
-					  <br>
-					  <div>
-						  <div>
-							<input type="radio" name="accountType" value="Professor" checked>
-							<label>Professor</label>
-						  </div>
-						  <div>
-							<input type="radio" name="accountType" value="Student">
-							<label>Student</label>
-						  </div>
-					  </div>
-			  		  <br><br>
-			  		  Name:<br>
-					  <input type="text" name="name">
-					  <br>
-					  Email Address:<br>
-					  <input type="text" name="email">
-					  <br>
-					  Password:<br>
-					  <input type="text" name="password">
-					  <br>
-					  Confirm Password:<br>
-					  <input type="text" name="password2">
-					  <br><br>
-					  <input type="submit" value="Submit">
-					</form>
-
 				</div>
 			</section>
 

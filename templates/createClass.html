@@ -31,53 +31,30 @@
 				<div class="container">
 
 					<header class="major">
-						<h2>Login</h2>
+						<h2>Congratulations, you have been approved!</h2>
+						<h2>Now please create a course</h2>
 					</header>
 
 					<br><br>
-					<form action="/" method="post">
-					  Email Address:<br>
-					  <input type="text" name="email">
+					<form action="/professorPage" method="post">
+					  Class Name:<br>
+					  <input style="width: 30%;" type="text" name="className">
 					  <br>
-					  Password:<br>
-					  <input type="text" name="password">
+					  Course Number:<br>
+					  <input style="width: 15%;" type="text" name="courseNumber">
+					  <br>
+					  Department Name:<br>
+					  <input style="width:25%;" type="text" name="departmentName">
+					  <br>
+					  Course Description:<br>
+					  <input type="text" name="courseDescription">
 					  <br><br>
+					  <input type="hidden" name="emailAddress" value=""/>
 					  <input type="submit" value="Submit">
 					</form>
 					<p style="color:red">{{loginError}}</p>
 					<br>
 					<br>
-					<h2>Sign Up</h2>
-					<p style="color:red">{{signUpError}}</p>
-					<form action="/createAccount" method="post">
-					  <br>
-					  Type of User:
-					  <br>
-					  <div>
-						  <div>
-							<input type="radio" name="accountType" value="Professor" checked>
-							<label>Professor</label>
-						  </div>
-						  <div>
-							<input type="radio" name="accountType" value="Student">
-							<label>Student</label>
-						  </div>
-					  </div>
-			  		  <br><br>
-			  		  Name:<br>
-					  <input type="text" name="name">
-					  <br>
-					  Email Address:<br>
-					  <input type="text" name="email">
-					  <br>
-					  Password:<br>
-					  <input type="text" name="password">
-					  <br>
-					  Confirm Password:<br>
-					  <input type="text" name="password2">
-					  <br><br>
-					  <input type="submit" value="Submit">
-					</form>
 
 				</div>
 			</section>
