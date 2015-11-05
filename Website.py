@@ -15,6 +15,8 @@ def mainPage():
 					resp = make_response(redirect('/adminpage'))
 				elif account[0][2] == 'Professor':
 					resp = make_response(redirect('/professorPage'))
+				elif account[0][2] == 'Student':
+					resp = make_response(redirect('studentPage')) 	
 				else:
 					resp = make_response(redirect('logged in as something besides admin/prof'))
 				resp.set_cookie('username', request.form['email'])
@@ -89,7 +91,16 @@ def professorPage():
 	else:
 		return render_template('signin.html', loginError="Please sign in as professor to visit this page")
 
-	
+
+@app.route('/studentPage', methods=['GET', 'POST'])
+def studentPage():
+
+	account = get_user(request.cookies.get('username'))[0]
+	if account[2] == 'Student':
+		classes = getAllClasses()
+		return render_template('student.html', classList=classes)
+	else:
+		return render_template('signin.html', loginError='Please sign in as student to visit this page')
 
 if __name__ == '__main__':
 	app.run(debug=True)

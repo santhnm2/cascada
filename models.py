@@ -54,6 +54,13 @@ def getClass(emailAddress):
 		con.commit()
 		return result.fetchall()
 
+def getAllClasses():
+	with sql.connect(database) as con:
+		cur = con.cursor()
+		result = cur.execute("SELECT * FROM ClassTable;")
+		con.commit()
+		return result.fetchall()
+
 
 
 
