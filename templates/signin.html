@@ -53,15 +53,26 @@
 					  <br>
 					  Type of User:
 					  <br>
-					  <div>
+					 	<script>
+    						$(document).ready(function() {
+    							$("#accountTypeOpt input[name='accountType']").click(function(){
+    								alert('You clicked radio!');
+    								
+								});
+
+							});
+  						</script>
+
+					  <div id="accountTypeOpt">
 						  <div>
-							<input type="radio" name="accountType" value="Professor" checked>
+							<input type="radio" name="accountType" id="profOpt" value="Professor" >
 							<label>Professor</label>
 						  </div>
 						  <div>
-							<input type="radio" name="accountType" value="Student">
+							<input type="radio" name="accountType" id="studentOpt" value="Student" checked>
 							<label>Student</label>
 						  </div>
+						  
 					  </div>
 			  		  <br><br>
 			  		  Name:<br>

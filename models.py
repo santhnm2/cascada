@@ -68,10 +68,32 @@ def getClassesForStudent(emailAddress):
 		con.commit()
 		return result.fetchall()
 
+def getTasksForStudent(emailAddress):
+	with sql.connect(database) as con:
+		cur = con.cursor()
+		result = cur.execute("SELECT * FROM AssignmentTable WHERE Email = (?);", (emailAddress,))
+		con.commit()
+		return result.fetchall()	
+
+def getMyCourse(professorEmail):
+	with sql.connect(database) as con:
+		cur = con.cursor()
+		result = cur.execute("SELECT CourseNumber, DepartmentName FROM ClassTable WHERE Email = (?);", (professorEmail,))
+		con.commit()
+		return result.fetchall()[0]
 
 
+def getStudents(professorEmail, courseNumber, departmentName):
+	with sql.connect(database) as con:
+		cur = con.cursor()
+		
+		result = cur.execute("SELECT Email FROM StudentClasses WHERE CourseNumber = (?) AND DepartmentName = (?);", (courseNumber, departmentName,))
+		con.commit()
+		return result.fetchall()[0]
 
-
-
-
-
+def createTask(studentEmails, assignmentName, dueDate, assignmentDescription, courseNumber, departmentName):
+	with sql.connect(database) as con:
+		cur = con.cursor()
+		for email in studentEmails:
+			cur.execute("INSERT INTO AssignmentTable (Email, AssignmentName, Completed, DueDate, AssignmentDescription, CourseNumber, DepartmentName) VALUES (?,?,?,?,?,?,?)", (email, assignmentName, "Not Completed", dueDate, assignmentDescription, courseNumber, departmentName,))
+		con.commit()

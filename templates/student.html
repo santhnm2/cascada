@@ -30,14 +30,14 @@
 			<section id="main" class="wrapper">
 				<div class="container">
 					<header class="courses">
-						<h2>Register for courses</h2>
+						<h2>Your Courses</h2>
 					</header>
 					<table>
 						<th>
-						<td> Department </td>
-						<td> Course Number </td>
-						<td> Course Name </td>
-						<td> Description </td>
+							<td style="font-weight: bold;"> Department </td>
+							<td style="font-weight: bold;"> Course Number </td>
+							<td style="font-weight: bold;"> Course Name </td>
+							<td style="font-weight: bold;"> Description </td>
 						</th>
 	    				{% for row in classList %}
    							<tr>
@@ -46,6 +46,24 @@
         						<td> {{ row[3] }} </td>
         						<td> {{ row[2] }} </td>
         						<td> {{ row[5] }} </td>
+   							</tr>
+						{% endfor %}
+					</table>
+					<header>
+						<h2>Your Tasks</h2>
+					</header>
+					<table>
+						<th style="font-weight: bold;">
+							<td style="font-weight: bold;">Task Name</td>
+							<td style="font-weight: bold;">Due Date</td>
+							<td style="font-weight: bold;">Status</td>
+						</th>
+						{% for row in taskList %}
+   							<tr>
+   								<td> <input type="checkbox"> </td>
+   								<td> {{ row[1] }} </td>
+        						<td> {{ row[3] }} </td>
+        						<td> {{ row[2] }} </td>
    							</tr>
 						{% endfor %}
 					</table>

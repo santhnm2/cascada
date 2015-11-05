@@ -71,12 +71,27 @@ def createUnapprovedPage():
 @app.route('/professorPage', methods=['GET', 'POST'])
 def professorPage():
 	if request.method == 'POST':
-		email = request.cookies.get('username')
-		className = request.form.get('className', None)
-		courseNumber = request.form.get('courseNumber', None)
-		departmentName = request.form.get('departmentName', None)
-		courseDescription = request.form.get('courseDescription', None)
-		createClass(email, className, courseNumber, departmentName, courseDescription)
+		if request.form.get('classForm') == 'classForm':
+			email = request.cookies.get('username')
+			className = request.form.get('className', None)
+			courseNumber = request.form.get('courseNumber', None)
+			departmentName = request.form.get('departmentName', None)
+			courseDescription = request.form.get('courseDescription', None)
+			createClass(email, className, courseNumber, departmentName, courseDescription)
+		elif request.form.get('taskForm') == 'taskForm':
+			assignmentName = request.form.get('assignmentName', None)
+			dueDate = request.form.get('dueDates', None)
+			assignmentDescription = request.form.get('assignmentDescription', None)
+			
+			vals = getMyCourse(request.cookies.get('username'))
+			courseNumber = vals[0]
+			departmentName = vals[1]
+
+			students = getStudents(request.cookies.get('username'), courseNumber, departmentName)
+			createTask(students, assignmentName, dueDate, assignmentDescription, courseNumber, departmentName)
+			
+		
+
 
 	account = get_user(request.cookies.get('username'))[0]
 	if account[2] == "Professor":
@@ -97,9 +112,9 @@ def studentPage():
 
 	account = get_user(request.cookies.get('username'))[0]
 	if account[2] == 'Student':
-		print request.cookies.get('username')
 		classes = getClassesForStudent(request.cookies.get('username'))
-		return render_template('student.html', classList=classes)
+		tasks = getTasksForStudent(request.cookies.get('username'))
+		return render_template('student.html', classList=classes, taskList=tasks)
 	else:
 		return render_template('signin.html', loginError='Please sign in as student to visit this page')
 
