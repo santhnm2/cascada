@@ -86,7 +86,6 @@ def getMyCourse(professorEmail):
 def getStudents(professorEmail, courseNumber, departmentName):
 	with sql.connect(database) as con:
 		cur = con.cursor()
-		
 		result = cur.execute("SELECT Email FROM StudentClasses WHERE CourseNumber = (?) AND DepartmentName = (?);", (courseNumber, departmentName,))
 		con.commit()
 		return result.fetchall()[0]
