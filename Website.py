@@ -97,7 +97,8 @@ def studentPage():
 
 	account = get_user(request.cookies.get('username'))[0]
 	if account[2] == 'Student':
-		classes = getAllClasses()
+		print request.cookies.get('username')
+		classes = getClassesForStudent(request.cookies.get('username'))
 		return render_template('student.html', classList=classes)
 	else:
 		return render_template('signin.html', loginError='Please sign in as student to visit this page')

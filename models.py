@@ -61,6 +61,13 @@ def getAllClasses():
 		con.commit()
 		return result.fetchall()
 
+def getClassesForStudent(emailAddress):
+	with sql.connect(database) as con:
+		cur = con.cursor()
+		result = cur.execute("SELECT * FROM StudentClasses WHERE Email = (?);", (emailAddress,))
+		con.commit()
+		return result.fetchall()
+
 
 
 
