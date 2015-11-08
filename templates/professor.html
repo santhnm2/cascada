@@ -21,7 +21,7 @@
 						<li><a href="/">Home</a></li>
 						<li><a href="generic.html">Generic</a></li>
 						<li><a href="elements.html">Elements</a></li>
-						<li><a href="#" class="button special">Sign Up</a></li>
+						<li><a href="/logout" class="button special">Log Out</a></li>
 					</ul>
 				</nav>
 			</header>
@@ -30,7 +30,7 @@
 			<section id="main" class="wrapper">
 				<div class="container">
 					<header class="major">
-						<h2>Welcome!</h2>
+						<h2>Welcome {{name}}!</h2>
 					</header>
 					Class Name:<br>
 					<h3>{{currClass[1]}}</h3>
@@ -44,6 +44,25 @@
 					Course Description:<br>
 					<h3>{{currClass[4]}}</h3>
 					<br><br>
+
+					<header>
+						<h2>Class Assignments:</h2>
+					</header>
+					<table>
+						<th style="font-weight: bold;">
+							<td style="font-weight: bold;">Task Name</td>
+							<td style="font-weight: bold;">Due Date</td>
+							<td style="font-weight: bold;">Status</td>
+						</th>
+						{% for row in currAssignments %}
+   							<tr>
+   								<td> <input type="checkbox"> </td>
+   								<td> {{ row[1] }} </td>
+        						<td> {{ row[3] }} </td>
+        						<td> {{ row[2] }} </td>
+   							</tr>
+						{% endfor %}
+					</table>
 
 					<br><br>
 					<form action="/professorPage" method="post">

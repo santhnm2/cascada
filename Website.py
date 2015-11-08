@@ -89,9 +89,6 @@ def professorPage():
 
 			students = getStudents(request.cookies.get('username'), courseNumber, departmentName)
 			createTask(students, assignmentName, dueDate, assignmentDescription, courseNumber, departmentName)
-			
-		
-
 
 	account = get_user(request.cookies.get('username'))[0]
 	if account[2] == "Professor":
@@ -101,15 +98,16 @@ def professorPage():
 		elif isApproved == 'Approved':
 			return redirect('/createClass')
 		else:
-			profClass = getClass(account[0])[0]
-			return render_template('professor.html', currClass=profClass)
+			profClass = getClass(account[0])[0] 
+			assignments = getClassAssignments(profClass[2], profClass[3])
+			print assignments
+			return render_template('professor.html', currClass=profClass, name=account[3], currAssignments=assignments)
 	else:
 		return render_template('signin.html', loginError="Please sign in as professor to visit this page")
 
 
 @app.route('/studentPage', methods=['GET', 'POST'])
 def studentPage():
-
 	account = get_user(request.cookies.get('username'))[0]
 	if account[2] == 'Student':
 		classes = getClassesForStudent(request.cookies.get('username'))
@@ -117,6 +115,13 @@ def studentPage():
 		return render_template('student.html', classList=classes, taskList=tasks)
 	else:
 		return render_template('signin.html', loginError='Please sign in as student to visit this page')
+
+@app.route('/logout', methods=['GET'])
+def logOutFromWebsite():
+	resp = make_response(render_template('signin.html'))
+	resp.set_cookie('username', '', expires=0)
+	return resp
+
 
 if __name__ == '__main__':
 	app.run(debug=True)
