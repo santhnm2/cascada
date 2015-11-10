@@ -100,19 +100,29 @@ def professorPage():
 		else:
 			profClass = getClass(account[0])[0] 
 			assignments = getClassAssignments(profClass[2], profClass[3])
-			print assignments
-			return render_template('professor.html', currClass=profClass, name=account[3], currAssignments=assignments)
+			assignmentWithPercents = {}
+			for assignment in assignments:
+				totalCompleted = getTotalCompleted(assignment[1], assignment[5], assignment[6])[0]
+				totalIncompleted = getTotalIncompleted(assignment[1], assignment[5], assignment[6])[0]
+				assignmentWithPercents[assignment] = (totalCompleted*100/(totalCompleted+totalIncompleted))
+			return render_template('professor.html', currClass=profClass, name=account[3], currAssignments=assignmentWithPercents)
 	else:
 		return render_template('signin.html', loginError="Please sign in as professor to visit this page")
 
 
 @app.route('/studentPage', methods=['GET', 'POST'])
 def studentPage():
+	if request.method == 'POST':
+		email = request.cookies.get('username')
+		assignmentName = request.form.get('assignmentName', None)
+		classNum = request.form.get('classNum', None)
+		markAsCompleted(email, assignmentName, classNum)
 	account = get_user(request.cookies.get('username'))[0]
 	if account[2] == 'Student':
 		classes = getClassesForStudent(request.cookies.get('username'))
 		tasks = getTasksForStudent(request.cookies.get('username'))
-		return render_template('student.html', classList=classes, taskList=tasks)
+		completeTasks = getCompletedTasksForStudent(request.cookies.get('username'))
+		return render_template('student.html', classList=classes, taskList=tasks, completeTaskList=completeTasks)
 	else:
 		return render_template('signin.html', loginError='Please sign in as student to visit this page')
 

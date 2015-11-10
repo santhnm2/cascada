@@ -53,13 +53,15 @@
 							<td style="font-weight: bold;">Task Name</td>
 							<td style="font-weight: bold;">Due Date</td>
 							<td style="font-weight: bold;">Status</td>
+							<td style="font-weight: bold;">Progress</td>
 						</th>
-						{% for row in currAssignments %}
+						{% for row in currAssignments.keys() %}
    							<tr>
    								<td> <input type="checkbox"> </td>
    								<td> {{ row[1] }} </td>
         						<td> {{ row[3] }} </td>
         						<td> {{ row[2] }} </td>
+        						<td> <progress value="{{currAssignments[row]}}" max="100"> </progress></td>
    							</tr>
 						{% endfor %}
 					</table>

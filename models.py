@@ -71,7 +71,14 @@ def getClassesForStudent(emailAddress):
 def getTasksForStudent(emailAddress):
 	with sql.connect(database) as con:
 		cur = con.cursor()
-		result = cur.execute("SELECT * FROM AssignmentTable WHERE Email = (?);", (emailAddress,))
+		result = cur.execute("SELECT * FROM AssignmentTable WHERE Email = (?) AND Completed='Not Completed';", (emailAddress,))
+		con.commit()
+		return result.fetchall()
+
+def getCompletedTasksForStudent(emailAddress):
+	with sql.connect(database) as con:
+		cur = con.cursor()
+		result = cur.execute("SELECT * FROM AssignmentTable WHERE Email = (?) AND Completed='Completed';", (emailAddress,))
 		con.commit()
 		return result.fetchall()	
 
@@ -88,13 +95,13 @@ def getStudents(professorEmail, courseNumber, departmentName):
 		cur = con.cursor()
 		result = cur.execute("SELECT Email FROM StudentClasses WHERE CourseNumber = (?) AND DepartmentName = (?);", (courseNumber, departmentName,))
 		con.commit()
-		return result.fetchall()[0]
+		return result.fetchall()
 
 def createTask(studentEmails, assignmentName, dueDate, assignmentDescription, courseNumber, departmentName):
 	with sql.connect(database) as con:
 		cur = con.cursor()
 		for email in studentEmails:
-			cur.execute("INSERT INTO AssignmentTable (Email, AssignmentName, Completed, DueDate, AssignmentDescription, CourseNumber, DepartmentName) VALUES (?,?,?,?,?,?,?)", (email, assignmentName, "Not Completed", dueDate, assignmentDescription, courseNumber, departmentName,))
+			cur.execute("INSERT INTO AssignmentTable (Email, AssignmentName, Completed, DueDate, AssignmentDescription, CourseNumber, DepartmentName) VALUES (?,?,?,?,?,?,?)", (email[0], assignmentName, "Not Completed", dueDate, assignmentDescription, courseNumber, departmentName,))
 		con.commit()
 
 def getClassAssignments(courseNumber, departmentName):
@@ -103,6 +110,26 @@ def getClassAssignments(courseNumber, departmentName):
 		result = cur.execute("SELECT * FROM AssignmentTable WHERE CourseNumber = (?) AND DepartmentName = (?);", (courseNumber, departmentName,))
 		con.commit()
 		return result.fetchall()
+
+def markAsCompleted(email, assignmentName, classNum):
+	with sql.connect(database) as con:
+		cur = con.cursor()
+		cur.execute("UPDATE AssignmentTable SET Completed = 'Completed' WHERE Email = (?) AND AssignmentName = (?) AND CourseNumber = (?);", (email,assignmentName,classNum,))
+		con.commit()
+
+def getTotalCompleted(assignmentName, classNum, departmentName):
+	with sql.connect(database) as con:
+		cur = con.cursor()
+		completed = cur.execute("SELECT COUNT(*) FROM AssignmentTable WHERE AssignmentName = (?) AND CourseNumber = (?) AND DepartmentName = (?) AND Completed='Completed';", (assignmentName, classNum, departmentName,))
+		con.commit()
+		return completed.fetchall()[0]
+
+def getTotalIncompleted(assignmentName, classNum, departmentName):
+	with sql.connect(database) as con:
+		cur = con.cursor()
+		incompleted = cur.execute("SELECT COUNT(*) FROM AssignmentTable WHERE AssignmentName = (?) AND CourseNumber = (?) AND DepartmentName = (?) AND Completed='Not Completed';", (assignmentName, classNum, departmentName,))
+		con.commit()
+		return incompleted.fetchall()[0]
 
 
 
