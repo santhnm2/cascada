@@ -1,6 +1,7 @@
 from flask import render_template, make_response, request, Flask, redirect, url_for
 from models import *
 from Professor import Professor
+import datetime
 
 app = Flask(__name__)
 
@@ -121,8 +122,10 @@ def studentPage():
 	if account[2] == 'Student':
 		classes = getClassesForStudent(request.cookies.get('username'))
 		tasks = getTasksForStudent(request.cookies.get('username'))
+		now = datetime.datetime.now()
+		currDate = now.strftime("%Y-%m-%d")
 		completeTasks = getCompletedTasksForStudent(request.cookies.get('username'))
-		return render_template('student.html', classList=classes, taskList=tasks, completeTaskList=completeTasks)
+		return render_template('student.html', classList=classes, taskList=tasks, completeTaskList=completeTasks, currDate=currDate)
 	else:
 		return render_template('signin.html', loginError='Please sign in as student to visit this page')
 
@@ -131,7 +134,6 @@ def logOutFromWebsite():
 	resp = make_response(render_template('signin.html'))
 	resp.set_cookie('username', '', expires=0)
 	return resp
-
 
 if __name__ == '__main__':
 	app.run(debug=True)
