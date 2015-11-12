@@ -96,7 +96,6 @@ def professorPage():
 			departmentName = request.form.get('departmentName', None)
 			extendDate = request.form.get('dueDate', None)
 			if len(extendDate) == 10:
-				print "Gets here!!!"
 				extendDeadline(assignmentName, courseNumber, departmentName, extendDate)
 
 	account = get_user(request.cookies.get('username'))[0]

@@ -107,7 +107,7 @@ def createTask(studentEmails, assignmentName, dueDate, assignmentDescription, co
 def getClassAssignments(courseNumber, departmentName):
 	with sql.connect(database) as con:
 		cur = con.cursor()
-		result = cur.execute("SELECT * FROM AssignmentTable WHERE CourseNumber = (?) AND DepartmentName = (?);", (courseNumber, departmentName,))
+		result = cur.execute("SELECT * FROM AssignmentTable WHERE CourseNumber = (?) AND DepartmentName = (?) GROUP BY AssignmentName;", (courseNumber, departmentName,))
 		con.commit()
 		return result.fetchall()
 
