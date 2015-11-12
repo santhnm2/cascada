@@ -90,6 +90,14 @@ def professorPage():
 
 			students = getStudents(request.cookies.get('username'), courseNumber, departmentName)
 			createTask(students, assignmentName, dueDate, assignmentDescription, courseNumber, departmentName)
+		elif request.form.get('extendForm') == 'extendForm':
+			assignmentName = request.form.get('assignmentName', None)
+			courseNumber = request.form.get('courseNumber', None)
+			departmentName = request.form.get('departmentName', None)
+			extendDate = request.form.get('dueDate', None)
+			if len(extendDate) == 10:
+				print "Gets here!!!"
+				extendDeadline(assignmentName, courseNumber, departmentName, extendDate)
 
 	account = get_user(request.cookies.get('username'))[0]
 	if account[2] == "Professor":
@@ -134,6 +142,10 @@ def logOutFromWebsite():
 	resp = make_response(render_template('signin.html'))
 	resp.set_cookie('username', '', expires=0)
 	return resp
+
+# @app.route('/<assignment>', methods=['GET', 'POST'])
+# def commentPage():
+# 	if 
 
 if __name__ == '__main__':
 	app.run(debug=True)

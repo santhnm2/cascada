@@ -131,6 +131,13 @@ def getTotalIncompleted(assignmentName, classNum, departmentName):
 		con.commit()
 		return incompleted.fetchall()[0]
 
+def extendDeadline(assignmentName, classNum, departmentName, extendDate):
+	with sql.connect(database) as con:
+			cur = con.cursor()
+			cur.execute("UPDATE AssignmentTable SET DueDate = (?) WHERE AssignmentName = (?) AND CourseNumber = (?) AND DepartmentName = (?);", (extendDate,assignmentName,classNum,departmentName,))
+			con.commit()
+
+
 
 
 
