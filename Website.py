@@ -1,4 +1,4 @@
-from flask import render_template, make_response, request, Flask, redirect, url_for
+from flask import render_template, make_response, request, Flask, redirect, url_for, flash
 from models import *
 from Professor import Professor
 import datetime
@@ -161,6 +161,7 @@ def registration():
 					if curClass[4] == department and curClass[3] == courseNumber:
 						print('Already registered for ' + department + ' ' + courseNumber)
 						registered = True
+						flash('You are already registered for ' + department + ' ' + courseNumber)
 						break
 				if not registered:
 						print('Have not yet registered for ' + department + ' ' + courseNumber)
@@ -174,6 +175,8 @@ def registration():
 						assignments = getClassAssignments(courseNumber, department)
 
 						print(assignments)
+
+						flash('You are now registered for ' + department + ' ' + courseNumber)
 
 				return render_template('register.html', departments=list(departments.keys()), searchResults=[])
 			elif request.form.get('department'):
@@ -206,18 +209,5 @@ def logOutFromWebsite():
 # 	if 
 
 if __name__ == '__main__':
+	app.secret_key = 'some_secret'
 	app.run(debug=True)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
