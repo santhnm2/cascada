@@ -1,0 +1,78 @@
+<!doctype html>
+<html>
+	<head>
+		<script src="{{url_for('static', filename='js/jquery.min.js') }}"></script>
+		<script src="{{url_for('static', filename='js/skel.min.js') }}"></script>
+		<script src="{{url_for('static', filename='js/skel-layers.min.js') }}"></script>
+		<script src="{{url_for('static', filename='js/init.js') }}"></script>
+		<link rel="stylesheet" href="{{url_for('static', filename='css/skel.css') }}" />
+		<link rel="stylesheet" href="{{url_for('static', filename='css/style.css') }}" />
+		<link rel="stylesheet" href="{{url_for('static', filename='css/style-xlarge.css') }}" />
+	</head>
+	<body>
+		<!-- Header -->
+		<header id="header">
+			<h1><a href="/">Cascada</a></h1>
+			<nav id="nav">
+				<ul>
+					<li><a href="/">Home</a></li>
+					<li><a href="generic.html">Generic</a></li>
+					<li><a href="elements.html">Elements</a></li>
+					<li><a href="/logout" class="button special">Log Out</a></li>
+				</ul>
+			</nav>
+		</header>
+
+		<!-- Main -->
+		<section id="main" class="wrapper">
+				<div class="container">
+					<header>
+						<h2>Register for a course</h2>
+					</header>
+					<form action="/registration" method="post">
+						<select name='department' required>
+							<option value="default" disabled selected>Select a department</option>
+  							{% for dep in departments %}
+  								<option>{{ dep[0] }}</option>
+  							{% endfor %}  							
+						</select>
+						<br>
+						<input type="text" name='keyword' style="width: 100%;" placeholder="Enter a keyword" required/>
+						<br>
+   						<input type="submit" value="Search" style="float: right">​
+					</form>
+					{% if searchResults|length > 0 %}
+						<header>
+							<h2> Results: </h2>
+						</header>
+						<table>
+							<th>
+								<td style="font-weight: bold;"> Department </td>
+								<td style="font-weight: bold;"> Course Number </td>
+								<td style="font-weight: bold;"> Course Name </td>
+								<td style="font-weight: bold;"> Description </td>
+							</th>
+							{% for result in searchResults %}
+								<tr>
+									<td> {{ result[3] }} </td>
+									<td> {{ result[2] }} </td>
+									<td> {{ result[1] }} </td>
+									<td> {{ result[4] }} </td>
+									<td>
+										<form method="POST">
+											<input type="submit" value="Register">
+											<input type="hidden" name="professorEmailRegister" value="{{ result[0] }}">
+											<input type="hidden" name="courseNameRegister" value="{{ result[1] }}">
+											<input type="hidden" name="departmentRegister" value="{{ result[3] }}">
+											<input type="hidden" name="courseNumRegister" value="{{ result[2] }}">
+											<input type="hidden" name="courseDescriptionRegister" value="{{ result[4] }}">
+										</form>
+									</td>
+								</tr>
+							{% endfor %}
+						</table>
+					{% endif %}
+				</div>
+		</section>
+	</body>
+</html>

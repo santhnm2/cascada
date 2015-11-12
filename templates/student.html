@@ -9,8 +9,6 @@
 		<link rel="stylesheet" href="{{url_for('static', filename='css/style.css') }}" />
 		<link rel="stylesheet" href="{{url_for('static', filename='css/style-xlarge.css') }}" />
 	</head>
-	<script>
-	</script>
 	<body>
 
 		<!-- Header -->
@@ -49,6 +47,11 @@
    							</tr>
 						{% endfor %}
 					</table>
+					<div style="text-align: center">
+						<form action="/registration" method="GET">
+    						<input type="submit" value="Register for courses">
+						</form>
+					</div>
 					<header>
 						<h2>Your Incomplete Tasks</h2>
 					</header>

@@ -131,13 +131,23 @@ def getTotalIncompleted(assignmentName, classNum, departmentName):
 		con.commit()
 		return incompleted.fetchall()[0]
 
+def getDepartments():
+	with sql.connect(database) as con:
+		cur = con.cursor()
+		result = cur.execute("SELECT DepartmentName FROM ClassTable;")
+		con.commit()
+		return result.fetchall()
 
+def searchForClasses(department, keyword):
+	with sql.connect(database) as con:
+		cur = con.cursor()
+		result = cur.execute("SELECT * FROM ClassTable WHERE departmentName = (?) AND CourseDescription LIKE (?);", (department, '%'+keyword+'%', ))
+		con.commit()
+		return result.fetchall()	
 
-
-
-
-
-
-
-
-
+def register(email, professorEmail, className, courseNumber, departmentName, courseDescription):
+	with sql.connect(database) as con:
+		cur = con.cursor()
+		cur.execute("INSERT INTO StudentClasses (Email, ProfessorEmail, ClassName, CourseNumber, DepartmentName, Course\ Description) VALUES (?,?,?,?,?,?)", (email, professorEmail, className, courseNumber, departmentName, courseDescription,))
+		con.commit()
+		return result.fetchall()	

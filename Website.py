@@ -129,6 +129,59 @@ def studentPage():
 	else:
 		return render_template('signin.html', loginError='Please sign in as student to visit this page')
 
+@app.route('/registration', methods=['GET', 'POST'])
+def registration():
+	account = get_user(request.cookies.get('username'))[0]
+	if account[2] == 'Student':
+		
+		departmentsRaw = getDepartments();
+		departments = {}
+		for dep in departmentsRaw:
+			departments[dep] = True
+
+		if request.method == 'POST':
+			if request.form.get('departmentRegister'):
+				department = request.form.get('departmentRegister')
+				courseNumber = request.form.get('courseNumRegister')
+				email = request.cookies.get('username')
+				currentClasses = getClassesForStudent(email)
+
+				registered = False
+
+				print(currentClasses)
+
+				for curClass in currentClasses:
+					if curClass[4] == department and curClass[3] == courseNumber:
+						print('Already registered for ' + department + ' ' + courseNumber)
+						registered = True
+						break
+				if not registered:
+						print('Have not yet registered for ' + department + ' ' + courseNumber)
+
+						professorEmail = request.form.get('professorEmailRegister')
+						className = request.form.get('courseNameRegister')
+						courseDescription = request.form.get('courseDescriptionRegister')
+
+						# print('professorEmail = ' + professorEmail)
+						# print('courseName = ' + courseName)
+						# print('courseDescription = ' + courseDescription)
+
+						register(email, professorEmail, className, courseNumber, department, courseDescription)
+
+				return render_template('register.html', departments=list(departments.keys()), searchResults=[])
+			elif request.form.get('department'):
+				department = request.form.get('department', None)
+				keyword = request.form.get('keyword', None)
+			
+				searchResults = searchForClasses(department, keyword)
+				return render_template('register.html', departments=list(departments.keys()), searchResults=searchResults)
+			else:
+				return render_template('register.html', departments=list(departments.keys()), searchResults=[])
+		else:
+			return render_template('register.html', departments=list(departments.keys()), searchResults=[])
+	else:
+		return render_template('signin.html', loginError='Please sign in as a student to visit this page')
+
 @app.route('/logout', methods=['GET'])
 def logOutFromWebsite():
 	resp = make_response(render_template('signin.html'))
