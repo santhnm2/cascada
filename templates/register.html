@@ -26,6 +26,9 @@
 		<!-- Main -->
 		<section id="main" class="wrapper">
 				<div class="container">
+					<form action="/studentPage" method="get">
+						<input type="submit" value="Go back"/>
+					</form>
 					<header>
 						<h2>Register for a course</h2>
 					</header>
@@ -37,7 +40,7 @@
   							{% endfor %}  							
 						</select>
 						<br>
-						<input type="text" name='keyword' style="width: 100%;" placeholder="Enter a keyword" required/>
+						<input type="text" name='keyword' style="width: 100%;" placeholder="Enter a keyword"/>
 						<br>
    						<input type="submit" value="Search" style="float: right">​
 					</form>
@@ -47,13 +50,16 @@
 						</header>
 						<table>
 							<th>
+
 								<td style="font-weight: bold;"> Department </td>
 								<td style="font-weight: bold;"> Course Number </td>
 								<td style="font-weight: bold;"> Course Name </td>
 								<td style="font-weight: bold;"> Description </td>
+								<td style="font-weight: bold;">Register</td> 
 							</th>
 							{% for result in searchResults %}
 								<tr>
+									<td> <input type="checkbox"> </td>
 									<td> {{ result[3] }} </td>
 									<td> {{ result[2] }} </td>
 									<td> {{ result[1] }} </td>
