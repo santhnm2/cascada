@@ -78,7 +78,7 @@ def getTasksForStudent(emailAddress):
 def getCompletedTasksForStudent(emailAddress):
 	with sql.connect(database) as con:
 		cur = con.cursor()
-		result = cur.execute("SELECT * FROM AssignmentTable WHERE Email = (?) AND Completed='Completed';", (emailAddress,))
+		result = cur.execute("SELECT AssignmentName, DueDate, Graded, Grade, Feedback FROM AssignmentTable WHERE Email = (?) AND Completed='Completed';", (emailAddress,))
 		con.commit()
 		return result.fetchall()	
 

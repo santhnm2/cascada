@@ -91,13 +91,19 @@
 						<th style="font-weight: bold;">
 							<td style="font-weight: bold;">Task Name</td>
 							<td style="font-weight: bold;">Due Date</td>
+							<td style="font-weight: bold;">Graded</td>
+							<td style="font-weight: bold;">Grade</td>
+							<td style="font-weight: bold;">Feedback</td>
 <!-- 							<td style="font-weight: bold;">Status</td>
  -->						</th>
 						{% for row in completeTaskList %}
    							<tr>
    								<td> <input type="checkbox"> </td>
-   								<td> {{ row[1] }} </td>
+   								<td> {{ row[0] }} </td>
+        						<td> {{ row[1] }} </td>
+        						<td> {{ row[2] }} </td>
         						<td> {{ row[3] }} </td>
+        						<td> {{ row[4] }} </td>
 <!--         						<td> {{ row[2] }} </td>
  -->   							</tr>
 						{% endfor %}
