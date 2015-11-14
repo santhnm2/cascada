@@ -19,7 +19,7 @@
 				<nav id="nav">
 					<ul>
 						<li><a href="/">Home</a></li>
-						<li><a href="generic.html">Generic</a></li>
+						<li><a href="/gradebook">Gradebook</a></li>
 						<li><a href="elements.html">Elements</a></li>
 						<li><a href="/logout" class="button special">Log Out</a></li>
 					</ul>
@@ -60,7 +60,7 @@
 						{% for row in currAssignments.keys() %}
    							<tr>
    								<td> <input type="checkbox"> </td>
-   								<td> {{ row[1] }} </td>
+   								<td> <a href={{ row[1] }}> {{ row[1] }} </a></td>
         						<td> {{ row[3] }} </td>
         						<!-- <td> {{ row[2] }} </td> -->
         						<td> <progress value="{{currAssignments[row]}}" max="100"> </progress></td>

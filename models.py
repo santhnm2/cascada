@@ -157,3 +157,16 @@ def register(email, professorEmail, className, courseNumber, departmentName, cou
 		cur.execute("INSERT INTO StudentClasses (Email, ProfessorEmail, ClassName, CourseNumber, DepartmentName, CourseDescription) VALUES (?,?,?,?,?,?)", (email, professorEmail, className, courseNumber, departmentName, courseDescription,))
 		con.commit()
 		# return result.fetchall()	
+
+def getSubmissions():
+	with sql.connect(database) as con:
+		cur = con.cursor()
+		result = cur.execute("SELECT Email, AssignmentName, DueDate, CourseNumber, DepartmentName FROM AssignmentTable WHERE Graded = 'Not Graded' AND Completed = 'Completed';")
+		con.commit()
+		return result.fetchall()
+
+def gradeAssignment(grade, feedback, assignmentName, courseNumber, departmentName):
+	with sql.connect(database) as con:
+		cur = con.cursor()
+		cur.execute("UPDATE AssignmentTable SET Grade = (?), Feedback = (?), Graded='Graded' WHERE AssignmentName = (?) AND CourseNumber = (?) AND DepartmentName = (?);", (grade,feedback,assignmentName,courseNumber,departmentName,))
+

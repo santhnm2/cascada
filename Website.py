@@ -136,6 +136,25 @@ def studentPage():
 	else:
 		return render_template('signin.html', loginError='Please sign in as student to visit this page')
 
+# @app.route('/<assignment>', methods=['GET', 'POST'])
+# def assignmentSubmissions(assignment=None):
+# 	submissions = getSubmissions(assignment)
+# 	print submissions
+# 	return render_template('submissions.html', submissions=submissions)
+
+@app.route('/gradebook', methods=['GET', 'POST'])
+def profGradebook():
+	if request.method == 'POST':
+		grade = request.form.get('grade', None)
+		feedback = request.form.get('feedback', None)
+		email = request.form.get('email', None)
+		assignmentName = request.form.get('assignment', None)
+		courseNumber = request.form.get('courseNum', None)
+		departmentName = request.form.get('departmentName', None)
+		gradeAssignment(grade, feedback, assignmentName, courseNumber, departmentName)
+	submissions = getSubmissions()
+	return render_template('submissions.html', submissions=submissions)
+
 @app.route('/registration', methods=['GET', 'POST'])
 def registration():
 	account = get_user(request.cookies.get('username'))[0]
