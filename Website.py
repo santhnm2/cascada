@@ -136,11 +136,13 @@ def studentPage():
 	else:
 		return render_template('signin.html', loginError='Please sign in as student to visit this page')
 
-# @app.route('/<assignment>', methods=['GET', 'POST'])
-# def assignmentSubmissions(assignment=None):
-# 	submissions = getSubmissions(assignment)
-# 	print submissions
-# 	return render_template('submissions.html', submissions=submissions)
+@app.route('/<assignment>', methods=['GET', 'POST'])
+def discussionBoard(assignment=None):
+	#submissions = getSubmissions(assignment)
+	#print submissions
+	discussion = getDiscussionList(assignment)
+	print discussion[0].getPostText()
+	return render_template('discussion.html')
 
 @app.route('/gradebook', methods=['GET', 'POST'])
 def profGradebook():

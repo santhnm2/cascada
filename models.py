@@ -1,4 +1,5 @@
 import sqlite3 as sql
+from Post import Post
 database = "Cascada.db"
 
 def insert_user(email, password, name, accountType):
@@ -170,3 +171,19 @@ def gradeAssignment(grade, feedback, assignmentName, courseNumber, departmentNam
 		cur = con.cursor()
 		cur.execute("UPDATE AssignmentTable SET Grade = (?), Feedback = (?), Graded='Graded' WHERE AssignmentName = (?) AND CourseNumber = (?) AND DepartmentName = (?);", (grade,feedback,assignmentName,courseNumber,departmentName,))
 
+def getDiscussionList(assignmentName):
+	sortedComments = []
+	getChildren(assignmentName, sortedComments, 0, -1)
+	return sortedComments
+
+def getChildren(assignmentName, sortedComments, level, parentid):
+	#c.execute("SELECT * FROM comments WHERE projectname = '%s'" % symbol)
+	with sql.connect(database) as con:
+		cur = con.cursor()
+		result = cur.execute("SELECT * FROM Discussion WHERE AssignmentName = (?) AND ParentId = (?);", (assignmentName, parentid, )).fetchall()
+		if len(result) == 0:
+			return
+		else:
+			for post in result:
+				sortedComments.append(Post(post[2], level, post[0], post[1], post[3], post[4]))
+				getChildren(assignmentName, sortedComments, level+1, post[0])
