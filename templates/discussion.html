@@ -34,6 +34,30 @@
 						<h2>Discussion Board</h2>
 					</header>
 
+					<ul style="width: 90%; list-style-type: none;">
+						<form method='POST'>
+							<h3>Insert new comment:</h3>
+							<input type="submit"value="Reply" style="float: right">
+							<div style="overflow: hidden; padding-right: 1em;">
+							   <input id="newcomment" name="newcomment" type="text" style="width: 100%; height:25px;">
+							</div>​
+						</form>
+						{% for post in discussionList %}
+							<form method='POST'>
+								<div style="margin-left:{{post.getIndent()}}px;	">
+									<li>{{ post.getPostText() }}</li>
+								</div>
+								<div style="margin-left:{{post.getAuthorIndent()}}px;	">
+									<li>Posted by: {{ post.getUser() }}</li>
+								</div>
+								<input type="submit"value="Reply" style="float: right">
+								<div style="overflow: hidden; padding-right: 1em; margin-left:{{post.getIndent()}}px">
+								   <input id="newcomment" name="newcomment" type="text" style="width: 100%; height: 25px;">
+								</div>​
+							</form>
+						{% endfor %}
+					</ul>
+
 				</div>
 			</section>
 

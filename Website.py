@@ -140,9 +140,9 @@ def studentPage():
 def discussionBoard(assignment=None):
 	#submissions = getSubmissions(assignment)
 	#print submissions
-	discussion = getDiscussionList(assignment)
-	print discussion[0].getPostText()
-	return render_template('discussion.html')
+	discussionList = getDiscussionList(assignment)
+	print discussionList[0].getPostText()
+	return render_template('discussion.html', discussionList=discussionList)
 
 @app.route('/gradebook', methods=['GET', 'POST'])
 def profGradebook():
