@@ -26,9 +26,6 @@ class Post(object):
 	def getIndent(self):
 		return self.indent*80
 
-	def getAuthorIndent(self):
-		return self.indent*80+10
-
 	def getColor(self):
 		if self.indent == 0:
 			return "#F5A9A9"

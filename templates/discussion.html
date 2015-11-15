@@ -40,19 +40,21 @@
 							<input type="submit"value="Reply" style="float: right">
 							<div style="overflow: hidden; padding-right: 1em;">
 							   <input id="newcomment" name="newcomment" type="text" style="width: 100%; height:25px;">
+							   <input type="hidden" name="parentid" value="-1">
 							</div>​
 						</form>
 						{% for post in discussionList %}
 							<form method='POST'>
-								<div style="margin-left:{{post.getIndent()}}px;	">
+								<div style="margin-left:{{post.getIndent()}}px;">
 									<li>{{ post.getPostText() }}</li>
 								</div>
-								<div style="margin-left:{{post.getAuthorIndent()}}px;	">
+								<div style="margin-left:{{post.getIndent()}}px; font-style:italic;">
 									<li>Posted by: {{ post.getUser() }}</li>
 								</div>
 								<input type="submit"value="Reply" style="float: right">
 								<div style="overflow: hidden; padding-right: 1em; margin-left:{{post.getIndent()}}px">
 								   <input id="newcomment" name="newcomment" type="text" style="width: 100%; height: 25px;">
+								   <input type="hidden" name="parentid" value={{post.getPostId()}}>
 								</div>​
 							</form>
 						{% endfor %}

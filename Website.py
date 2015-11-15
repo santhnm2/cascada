@@ -138,10 +138,12 @@ def studentPage():
 
 @app.route('/<assignment>', methods=['GET', 'POST'])
 def discussionBoard(assignment=None):
-	#submissions = getSubmissions(assignment)
-	#print submissions
+	if request.method == 'POST':
+		user = request.cookies.get('username')
+		parentid = request.form.get('parentid', None)
+		content = request.form.get('newcomment', None)
+		addPost(parentid, content, user, assignment)
 	discussionList = getDiscussionList(assignment)
-	print discussionList[0].getPostText()
 	return render_template('discussion.html', discussionList=discussionList)
 
 @app.route('/gradebook', methods=['GET', 'POST'])
@@ -224,10 +226,6 @@ def logOutFromWebsite():
 	resp = make_response(render_template('signin.html'))
 	resp.set_cookie('username', '', expires=0)
 	return resp
-
-# @app.route('/<assignment>', methods=['GET', 'POST'])
-# def commentPage():
-# 	if 
 
 if __name__ == '__main__':
 	app.secret_key = 'some_secret'

@@ -187,3 +187,9 @@ def getChildren(assignmentName, sortedComments, level, parentid):
 			for post in result:
 				sortedComments.append(Post(post[2], level, post[0], post[1], post[3], post[4]))
 				getChildren(assignmentName, sortedComments, level+1, post[0])
+
+def addPost(parentid, content, user, assignment):
+	with sql.connect(database) as con:
+		cur = con.cursor()
+		cur.execute("INSERT INTO Discussion (ParentId, Content, User, AssignmentName) VALUES (?,?,?,?)", (parentid, content, user, assignment,))
+		con.commit()
