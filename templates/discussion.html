@@ -44,6 +44,7 @@
 							</div>​
 						</form>
 						{% for post in discussionList %}
+						<div style="padding-top:10px; padding-bottom:10px;">
 							<form method='POST'>
 								<div style="margin-left:{{post.getIndent()}}px;">
 									<li>{{ post.getPostText() }}</li>
@@ -51,12 +52,22 @@
 								<div style="margin-left:{{post.getIndent()}}px; font-style:italic;">
 									<li>Posted by: {{ post.getUser() }}</li>
 								</div>
-								<input type="submit"value="Reply" style="float: right">
 								<div style="overflow: hidden; padding-right: 1em; margin-left:{{post.getIndent()}}px">
 								   <input id="newcomment" name="newcomment" type="text" style="width: 100%; height: 25px;">
 								   <input type="hidden" name="parentid" value={{post.getPostId()}}>
+								   <input type="hidden" name="submitType" value="add">
+								   <br>
 								</div>​
+								<input type="submit" value="Reply" style="float: right;">
 							</form>
+							{% if accountType == "Professor" %}
+							<form method='POST'>
+								<input type="hidden" name="submitType" value="delete">
+								<input type="hidden" name="postid" value={{post.getPostId()}}>
+								<input type="submit" value="Delete" style="background-color: red; float: right">
+							</form>
+							{% endif %}
+						</div>
 						{% endfor %}
 					</ul>
 

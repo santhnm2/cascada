@@ -193,3 +193,15 @@ def addPost(parentid, content, user, assignment):
 		cur = con.cursor()
 		cur.execute("INSERT INTO Discussion (ParentId, Content, User, AssignmentName) VALUES (?,?,?,?)", (parentid, content, user, assignment,))
 		con.commit()
+
+def deletePost(postid):
+	with sql.connect(database) as con:
+		cur = con.cursor()
+		result = cur.execute("SELECT * FROM Discussion WHERE ParentId = (?);", (postid,)).fetchall()
+		cur.execute("DELETE FROM Discussion WHERE PostId = (?);", (postid,))
+		con.commit()
+		if len(result) == 0:
+			return
+		else:
+			for post in result:
+				deletePost(post[0])

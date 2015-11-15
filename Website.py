@@ -139,12 +139,19 @@ def studentPage():
 @app.route('/<assignment>', methods=['GET', 'POST'])
 def discussionBoard(assignment=None):
 	if request.method == 'POST':
-		user = request.cookies.get('username')
-		parentid = request.form.get('parentid', None)
-		content = request.form.get('newcomment', None)
-		addPost(parentid, content, user, assignment)
+		if request.form.get('submitType') == 'add':
+			user = request.cookies.get('username')
+			parentid = request.form.get('parentid', None)
+			content = request.form.get('newcomment', None)
+			addPost(parentid, content, user, assignment)
+		else:
+			postid = request.form.get('postid', None)
+			deletePost(postid)
+			print "different type of form"
 	discussionList = getDiscussionList(assignment)
-	return render_template('discussion.html', discussionList=discussionList)
+	accountType = get_user(request.cookies.get('username'))[0][2]
+	print accountType
+	return render_template('discussion.html', discussionList=discussionList, accountType=accountType)
 
 @app.route('/gradebook', methods=['GET', 'POST'])
 def profGradebook():
