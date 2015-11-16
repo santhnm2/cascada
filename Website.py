@@ -28,7 +28,16 @@ def mainPage():
 		else:
 			return render_template('signin.html', loginError="Email not found in database")
 	else:
-		return render_template('signin.html')
+		if 'username' in request.cookies:
+			userType = get_user(request.cookies.get('username'))[0][2]
+			if userType == "Student":
+				return redirect('studentPage')
+			elif userType == "Professor":
+				return redirect('/professorPage')
+			else:
+				return redirect('/adminpage')
+		else:
+			return render_template('signin.html')
 
 
 @app.route('/createAccount', methods=['POST'])
@@ -167,10 +176,14 @@ def profGradebook():
 	submissions = getSubmissions()
 	return render_template('submissions.html', submissions=submissions)
 
-@app.route('/message')
+@app.route('/message', methods=['GET', 'POST'])
 def getUniqueConversations():
+	results = ""
+	if request.method == 'POST':
+		query = request.form.get('query', None)
+		results = searchUsers(query)
 	users = getUniqueRecipients(request.cookies.get('username'))
-	return render_template('message.html', messages=users, currUser=request.cookies.get('username'))
+	return render_template('message.html', messages=users, currUser=request.cookies.get('username'), results=results)
 
 @app.route('/conversation', methods=['GET', 'POST'])
 def getConversation():
@@ -237,7 +250,6 @@ def registration():
 					keyword = '%'
 				else:
 					keyword = '%' + keyword + '%'
-				# print('keyword = ' + keyword)
 
 				searchResults = searchForClasses(department, keyword)
 				return render_template('register.html', departments=list(departments.keys()), searchResults=searchResults)
@@ -269,3 +281,13 @@ def logOutFromWebsite():
 if __name__ == '__main__':
 	app.secret_key = 'some_secret'
 	app.run(debug=True)
+
+
+
+
+
+
+
+
+
+

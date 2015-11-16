@@ -20,7 +20,7 @@
 					<ul>
 						<li><a href="/">Home</a></li>
 						<li><a href="/gradebook">Gradebook</a></li>
-						<li><a href="elements.html">Elements</a></li>
+						<li><a href="/message">Messages</a></li>
 						<li><a href="/logout" class="button special">Log Out</a></li>
 					</ul>
 				</nav>
@@ -32,7 +32,24 @@
 					<header>
 						<h2>View Message Conversations</h2>
 					</header>
+					<form action="/message" method="post">
+						Search for a user to start a conversation with:
+						<input type="text" name="query">
+					</form>
+
+					{% if results|length > 0 %}
+						Search Results:
+						<table>
+							{% for result in results %}
+								<tr>
+	    						<td><a href="/conversation?sentTo={{result[0]}}">{{ result[0] }} </a></td>
+								</tr>
+							{% endfor %}
+						</table>
+					{% endif %}
+
 					<table>
+						Current Messages:
 						{% for message in messages %}
 							{% if message[0] == currUser %}
 								<tr>

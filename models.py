@@ -148,6 +148,7 @@ def extendDeadline(assignmentName, classNum, departmentName, extendDate):
 def searchForClasses(department, keyword):
 	with sql.connect(database) as con:
 		cur = con.cursor()
+		keyword = "%" + keyword + "%"
 		result = cur.execute("SELECT * FROM ClassTable WHERE departmentName = (?) AND CourseDescription LIKE (?);", (department, keyword, ))
 		con.commit()
 		return result.fetchall()	
@@ -239,3 +240,22 @@ def getGradeDistribution(assignmentName):
 		con.commit()
 		grades = [fGrade[0], dGrade[0], cGrade[0], bGrade[0], aGrade[0]]
 		return grades
+
+def searchUsers(query):
+	with sql.connect(database) as con:
+		cur = con.cursor()
+		query = "%" + query + "%"
+		result = cur.execute("SELECT * FROM UserTable WHERE Email LIKE (?) OR Name LIKE (?)", (query, query,)).fetchall()
+		con.commit()
+		return result
+
+
+
+
+
+
+
+
+
+
+
