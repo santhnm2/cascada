@@ -78,7 +78,8 @@ def professorPage():
 			courseNumber = request.form.get('courseNumber', None)
 			departmentName = request.form.get('departmentName', None)
 			courseDescription = request.form.get('courseDescription', None)
-			createClass(email, className, courseNumber, departmentName, courseDescription)
+			if courseNumber.isdigit():
+				createClass(email, className, courseNumber, departmentName, courseDescription)
 		elif request.form.get('taskForm') == 'taskForm':
 			assignmentName = request.form.get('assignmentName', None)
 			dueDate = request.form.get('dueDates', None)
@@ -162,7 +163,8 @@ def profGradebook():
 		assignmentName = request.form.get('assignment', None)
 		courseNumber = request.form.get('courseNum', None)
 		departmentName = request.form.get('departmentName', None)
-		gradeAssignment(grade, feedback, assignmentName, courseNumber, departmentName)
+		if grade.isdigit():
+			gradeAssignment(grade, feedback, assignmentName, courseNumber, departmentName)
 	submissions = getSubmissions()
 	return render_template('submissions.html', submissions=submissions)
 
