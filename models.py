@@ -214,7 +214,19 @@ def getUniqueRecipients(user):
 		con.commit()
 		return result
 
+def getAllMessages(sentFrom, sentTo):
+	with sql.connect(database) as con:
+		cur = con.cursor()
+		result = cur.execute("SELECT * FROM Message WHERE (sentFrom=(?) AND sentTo=(?)) OR (sentFrom=(?) AND sentTo=(?)) ", (sentFrom, sentTo, sentTo, sentFrom)).fetchall()
+		con.commit()
+		return result
 
+def insertMessage(content, sentFrom, sentTo):
+	with sql.connect(database) as con:
+		cur = con.cursor()
+		result = cur.execute("INSERT INTO Message (SentFrom, SentTo, Content) VALUES (?,?,?)", (sentFrom, sentTo, content,))
+		con.commit()
+		return result
 
 
 

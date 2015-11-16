@@ -1,0 +1,52 @@
+<!doctype html>
+<html>
+	<head>
+		<script src="{{url_for('static', filename='js/jquery.min.js') }}"></script>
+		<script src="{{url_for('static', filename='js/skel.min.js') }}"></script>
+		<script src="{{url_for('static', filename='js/skel-layers.min.js') }}"></script>
+		<script src="{{url_for('static', filename='js/init.js') }}"></script>
+		<link rel="stylesheet" href="{{url_for('static', filename='css/skel.css') }}" />
+		<link rel="stylesheet" href="{{url_for('static', filename='css/style.css') }}" />
+		<link rel="stylesheet" href="{{url_for('static', filename='css/style-xlarge.css') }}" />
+	</head>
+	<script>
+	</script>
+	<body>
+
+		<!-- Header -->
+			<header id="header">
+				<h1><a href="/">Cascada</a></h1>
+				<nav id="nav">
+					<ul>
+						<li><a href="/">Home</a></li>
+						<li><a href="/gradebook">Gradebook</a></li>
+						<li><a href="elements.html">Elements</a></li>
+						<li><a href="/logout" class="button special">Log Out</a></li>
+					</ul>
+				</nav>
+			</header>
+
+		<!-- Main -->
+			<section id="main" class="wrapper">
+				<div class="container">
+					<h2>Conversation with {{sentTo}}</h2>
+					{% for message in messages %}
+						{% if message[1] == sentFrom %}
+							<div style="clear: both; float: right; display: block; position: relative;"><h3>{{message[3]}}</h3></div>
+						{%else%}
+							<div style="clear: both; float: left; display: block; position: relative;"><h3>{{message[3]}}</h3></div>
+						{% endif %}						
+					{% endfor %}
+
+				</div>
+				<form style="margin:100px; clear: both; display: block; position: relative;" action="/conversation" method="post">
+					Message:
+					<input style="width:75%" type="text" name="content">
+					<input type="hidden" name="sentTo" value="{{sentTo}}">
+				</form>
+			</section>
+
+	</body>
+		
+		
+</html>

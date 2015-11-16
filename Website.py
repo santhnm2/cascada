@@ -149,7 +149,6 @@ def discussionBoard(assignment=None):
 		else:
 			postid = request.form.get('postid', None)
 			deletePost(postid)
-			print "different type of form"
 	discussionList = getDiscussionList(assignment)
 	accountType = get_user(request.cookies.get('username'))[0][2]
 	print accountType
@@ -174,10 +173,18 @@ def getUniqueConversations():
 	users = getUniqueRecipients(request.cookies.get('username'))
 	return render_template('message.html', messages=users, currUser=request.cookies.get('username'))
 
-@app.route('/conversation')
+@app.route('/conversation', methods=['GET', 'POST'])
 def getConversation():
-	recipient = request.args.get('sentTo')
-	messages = getAllMesssages(request.cookies.get('username'), recipient)
+	recipient = ""
+	if request.method == 'POST':
+		content = request.form.get('content')
+		sentFrom = request.cookies.get('username')
+		recipient = request.form.get('sentTo', None)
+		if content != "":
+			insertMessage(content, sentFrom, recipient)
+	else:
+		recipient = request.args.get('sentTo')
+	messages = getAllMessages(request.cookies.get('username'), recipient)
 	return render_template('conversation.html', messages=messages, sentFrom=request.cookies.get('username'), sentTo=recipient)
 
 @app.route('/registration', methods=['GET', 'POST'])
