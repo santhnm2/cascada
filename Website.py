@@ -1,7 +1,8 @@
-from flask import render_template, make_response, request, Flask, redirect, url_for, flash
+from flask import render_template, make_response, request, Flask, redirect, url_for, flash, Response
 from models import *
 from Professor import Professor
 import datetime
+import pygal
 
 app = Flask(__name__)
 
@@ -229,6 +230,17 @@ def registration():
 			return render_template('register.html', departments=list(departments.keys()), searchResults=[])
 	else:
 		return render_template('signin.html', loginError='Please sign in as a student to visit this page')
+
+@app.route('/barchart', methods=['GET', 'POST'])
+def barchart():
+	if request.method == 'POST':
+	    bar_chart = pygal.Bar(width=500, height=400)
+	    bar_chart.title = "Barchart"
+	    print request.form.get('assignmentName', None)
+	    lower,days = [12,13],['0-59','60-69', '70-79', '80-89', '90+']
+	    bar_chart.add('lower', lower)
+	    bar_chart.x_labels = days
+	    return Response(response=bar_chart.render(), content_type='image/svg+xml')
 
 @app.route('/logout', methods=['GET'])
 def logOutFromWebsite():
