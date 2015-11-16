@@ -253,8 +253,9 @@ def barchart():
 	if request.method == 'POST':
 	    bar_chart = pygal.Bar(width=500, height=400)
 	    bar_chart.title = "Barchart"
-	    print request.form.get('assignmentName', None)
-	    lower,days = [12,13],['0-59','60-69', '70-79', '80-89', '90+']
+	    assignmentName = request.form.get('assignmentName', None)
+	    grades = getGradeDistribution(assignmentName)
+	    lower,days = grades,['0-59','60-69', '70-79', '80-89', '90+']
 	    bar_chart.add('lower', lower)
 	    bar_chart.x_labels = days
 	    return Response(response=bar_chart.render(), content_type='image/svg+xml')

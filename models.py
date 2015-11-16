@@ -228,18 +228,14 @@ def insertMessage(content, sentFrom, sentTo):
 		con.commit()
 		return result
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+def getGradeDistribution(assignmentName):
+	with sql.connect(database) as con:
+		cur = con.cursor()
+		fGrade = cur.execute("SELECT COUNT(*) FROM AssignmentTable WHERE AssignmentName = (?) AND Graded='Graded' AND Grade <= 59;", (assignmentName,)).fetchall()[0]
+		dGrade = cur.execute("SELECT COUNT(*) FROM AssignmentTable WHERE AssignmentName = (?) AND Graded='Graded' AND Grade >= 59 AND Grade <= 69;", (assignmentName,)).fetchall()[0]
+		cGrade = cur.execute("SELECT COUNT(*) FROM AssignmentTable WHERE AssignmentName = (?) AND Graded='Graded' AND Grade >= 69 AND Grade <= 79;", (assignmentName,)).fetchall()[0]
+		bGrade = cur.execute("SELECT COUNT(*) FROM AssignmentTable WHERE AssignmentName = (?) AND Graded='Graded' AND Grade >= 79 AND Grade <= 89;", (assignmentName,)).fetchall()[0]
+		aGrade = cur.execute("SELECT COUNT(*) FROM AssignmentTable WHERE AssignmentName = (?) AND Graded='Graded' AND Grade >= 90;", (assignmentName,)).fetchall()[0]
+		con.commit()
+		grades = [fGrade[0], dGrade[0], cGrade[0], bGrade[0], aGrade[0]]
+		return grades
