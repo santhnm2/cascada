@@ -166,10 +166,10 @@ def getSubmissions():
 		con.commit()
 		return result.fetchall()
 
-def gradeAssignment(grade, feedback, assignmentName, courseNumber, departmentName):
+def gradeAssignment(grade, feedback, assignmentName, courseNumber, departmentName, email):
 	with sql.connect(database) as con:
 		cur = con.cursor()
-		cur.execute("UPDATE AssignmentTable SET Grade = (?), Feedback = (?), Graded='Graded' WHERE AssignmentName = (?) AND CourseNumber = (?) AND DepartmentName = (?);", (grade,feedback,assignmentName,courseNumber,departmentName,))
+		cur.execute("UPDATE AssignmentTable SET Grade = (?), Feedback = (?), Graded='Graded' WHERE AssignmentName = (?) AND CourseNumber = (?) AND DepartmentName = (?) AND Email = (?);", (grade,feedback,assignmentName,courseNumber,departmentName,email,))
 		con.commit()
 
 def getDiscussionList(assignmentName):

@@ -151,7 +151,6 @@ def discussionBoard(assignment=None):
 			deletePost(postid)
 	discussionList = getDiscussionList(assignment)
 	accountType = get_user(request.cookies.get('username'))[0][2]
-	print accountType
 	return render_template('discussion.html', discussionList=discussionList, accountType=accountType)
 
 @app.route('/gradebook', methods=['GET', 'POST'])
@@ -164,7 +163,7 @@ def profGradebook():
 		courseNumber = request.form.get('courseNum', None)
 		departmentName = request.form.get('departmentName', None)
 		if grade.isdigit():
-			gradeAssignment(grade, feedback, assignmentName, courseNumber, departmentName)
+			gradeAssignment(grade, feedback, assignmentName, courseNumber, departmentName, email)
 	submissions = getSubmissions()
 	return render_template('submissions.html', submissions=submissions)
 
