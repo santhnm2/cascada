@@ -170,6 +170,7 @@ def gradeAssignment(grade, feedback, assignmentName, courseNumber, departmentNam
 	with sql.connect(database) as con:
 		cur = con.cursor()
 		cur.execute("UPDATE AssignmentTable SET Grade = (?), Feedback = (?), Graded='Graded' WHERE AssignmentName = (?) AND CourseNumber = (?) AND DepartmentName = (?);", (grade,feedback,assignmentName,courseNumber,departmentName,))
+		con.commit()
 
 def getDiscussionList(assignmentName):
 	sortedComments = []
@@ -205,3 +206,28 @@ def deletePost(postid):
 		else:
 			for post in result:
 				deletePost(post[0])
+
+def getUniqueRecipients(user):
+	with sql.connect(database) as con:
+		cur = con.cursor()
+		result = cur.execute("SELECT DISTINCT SentFrom, SentTo FROM (SELECT SentFrom, SentTo FROM Message UNION ALL SELECT SentTo, SentFrom FROM Message) WHERE SentFrom < SentTo AND (SentFrom = (?) OR SentTo = (?));", (user, user,)).fetchall()
+		con.commit()
+		return result
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

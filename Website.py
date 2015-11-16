@@ -166,6 +166,17 @@ def profGradebook():
 	submissions = getSubmissions()
 	return render_template('submissions.html', submissions=submissions)
 
+@app.route('/message')
+def getUniqueConversations():
+	users = getUniqueRecipients(request.cookies.get('username'))
+	return render_template('message.html', messages=users, currUser=request.cookies.get('username'))
+
+@app.route('/conversation')
+def getConversation():
+	recipient = request.args.get('sentTo')
+	messages = getAllMesssages(request.cookies.get('username'), recipient)
+	return render_template('conversation.html', messages=messages, sentFrom=request.cookies.get('username'), sentTo=recipient)
+
 @app.route('/registration', methods=['GET', 'POST'])
 def registration():
 	account = get_user(request.cookies.get('username'))[0]

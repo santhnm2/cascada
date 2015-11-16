@@ -1,0 +1,55 @@
+<!doctype html>
+<html>
+	<head>
+		<script src="{{url_for('static', filename='js/jquery.min.js') }}"></script>
+		<script src="{{url_for('static', filename='js/skel.min.js') }}"></script>
+		<script src="{{url_for('static', filename='js/skel-layers.min.js') }}"></script>
+		<script src="{{url_for('static', filename='js/init.js') }}"></script>
+		<link rel="stylesheet" href="{{url_for('static', filename='css/skel.css') }}" />
+		<link rel="stylesheet" href="{{url_for('static', filename='css/style.css') }}" />
+		<link rel="stylesheet" href="{{url_for('static', filename='css/style-xlarge.css') }}" />
+	</head>
+	<script>
+	</script>
+	<body>
+
+		<!-- Header -->
+			<header id="header">
+				<h1><a href="/">Cascada</a></h1>
+				<nav id="nav">
+					<ul>
+						<li><a href="/">Home</a></li>
+						<li><a href="/gradebook">Gradebook</a></li>
+						<li><a href="elements.html">Elements</a></li>
+						<li><a href="/logout" class="button special">Log Out</a></li>
+					</ul>
+				</nav>
+			</header>
+
+		<!-- Main -->
+			<section id="main" class="wrapper">
+				<div class="container">
+					<header>
+						<h2>View Message Conversations</h2>
+					</header>
+					<table>
+						{% for message in messages %}
+							{% if message[0] == currUser %}
+								<tr>
+	    						<td><a href="/conversation?sentTo={{message[1]}}">{{ message[1] }} </a></td>
+								</tr>
+							{% else %}
+								<tr>
+	    						<td><a href="/conversation?sentTo={{message[0]}}">{{ message[0] }} </a></td>
+								</tr>
+							{% endif %}
+						{% endfor %}
+					</table>
+
+				</div>
+			</section>
+
+	</body>
+		
+		
+</html>
