@@ -44,7 +44,12 @@ def mainPage():
 def createAccount():
 	if len(get_user(request.form['email'])) > 0:
 		return render_template('signin.html', signUpError="Email already exists")
-	insert_user(request.form['email'], request.form['password'], request.form['name'], request.form['accountType'])
+	accountType = ''
+	if request.form.get('signUpStudent', None):
+		accountType = 'Student'
+	elif request.form.get('signUpProfessor', None):
+		accountType = 'Professor'
+	insert_user(request.form['email'], request.form['password'], request.form['name'], accountType)
 	return render_template("signin.html")
 
 @app.route('/adminpage', methods=['GET', 'POST'])
