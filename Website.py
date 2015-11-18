@@ -131,11 +131,19 @@ def professorPage():
 
 @app.route('/studentPage', methods=['GET', 'POST'])
 def studentPage():
+	dropped = False
 	if request.method == 'POST':
 		email = request.cookies.get('username')
-		assignmentName = request.form.get('assignmentName', None)
-		classNum = request.form.get('classNum', None)
-		markAsCompleted(email, assignmentName, classNum)
+		if request.form.get('departmentDrop', None):
+			departmentName = request.form.get('departmentDrop', None)
+			courseNum = request.form.get('courseNumDrop', None)
+			removeClass(email, departmentName, courseNum)
+			removeTasks(email, departmentName, courseNum)
+			dropped = True
+		else:
+			assignmentName = request.form.get('assignmentName', None)
+			classNum = request.form.get('classNum', None)
+			markAsCompleted(email, assignmentName, classNum)
 	account = get_user(request.cookies.get('username'))[0]
 	if account[2] == 'Student':
 		classes = getClassesForStudent(request.cookies.get('username'))
@@ -143,6 +151,8 @@ def studentPage():
 		now = datetime.datetime.now()
 		currDate = now.strftime("%Y-%m-%d")
 		completeTasks = getCompletedTasksForStudent(request.cookies.get('username'))
+		if dropped:
+			flash('You have dropped ' + departmentName + ' ' + courseNum)
 		return render_template('student.html', classList=classes, taskList=tasks, completeTaskList=completeTasks, currDate=currDate)
 	else:
 		return render_template('signin.html', loginError='Please sign in as student to visit this page')
@@ -218,26 +228,17 @@ def registration():
 
 				registered = False
 
-				print(currentClasses)
-
 				for curClass in currentClasses:
 					if curClass[4] == department and curClass[3] == courseNumber:
-						print('Already registered for ' + department + ' ' + courseNumber)
 						registered = True
 						flash('You are already registered for ' + department + ' ' + courseNumber)
 						break
 				if not registered:
-						print('Have not yet registered for ' + department + ' ' + courseNumber)
-
 						professorEmail = request.form.get('professorEmailRegister')
 						className = request.form.get('courseNameRegister')
 						courseDescription = request.form.get('courseDescriptionRegister')
 
 						register(email, professorEmail, className, courseNumber, department, courseDescription)
-
-						assignments = getClassAssignments(courseNumber, department)
-
-						print(assignments)
 
 						flash('You are now registered for ' + department + ' ' + courseNumber)
 

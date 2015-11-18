@@ -36,6 +36,7 @@
 							<td style="font-weight: bold;"> Course Number </td>
 							<td style="font-weight: bold;"> Course Name </td>
 							<td style="font-weight: bold;"> Description </td>
+							<td style="font-weight: bold;"> Drop </td>
 						</th>
 	    				{% for row in classList %}
    							<tr>
@@ -44,6 +45,13 @@
         						<td> {{ row[3] }} </td>
         						<td> {{ row[2] }} </td>
         						<td> {{ row[5] }} </td>
+        						<td>
+        							<form method="POST">
+											<input type="submit" value="Drop">
+											<input type="hidden" name="departmentDrop" value="{{ row[4] }}">
+											<input type="hidden" name="courseNumDrop" value="{{ row[3] }}">
+										</form>
+        						</td>
    							</tr>
 						{% endfor %}
 					</table>
@@ -108,11 +116,19 @@
  -->   							</tr>
 						{% endfor %}
 					</table>
-
+					{% with messages = get_flashed_messages() %}
+						{% if messages %}
+							<ul class=flashes>
+								{% for message in messages %}
+									<div id="myAlert" style="display: none;">{{ message | safe }}</div>
+									<script type="text/javascript">
+										window.alert(document.getElementById('myAlert').innerHTML);
+									</script>
+								{% endfor %}
+						    </ul>
+						{% endif %}
+					{% endwith %}
 				</div>
 			</section>
-
 	</body>
-		
-		
 </html>
