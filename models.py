@@ -83,6 +83,13 @@ def getCompletedTasksForStudent(emailAddress):
 		con.commit()
 		return result.fetchall()	
 
+def getTasksForCourse(courseNumber, departmentName):
+	with sql.connect(database) as con:
+		cur = con.cursor()
+		result = cur.execute("SELECT * FROM AssignmentList WHERE CourseNumber = (?) AND DepartmentName = (?);", (courseNumber, departmentName, ))
+		con.commit()
+		return result.fetchall()
+
 def getMyCourse(professorEmail):
 	with sql.connect(database) as con:
 		cur = con.cursor()
@@ -101,6 +108,7 @@ def getStudents(professorEmail, courseNumber, departmentName):
 def createTask(studentEmails, assignmentName, dueDate, assignmentDescription, courseNumber, departmentName):
 	with sql.connect(database) as con:
 		cur = con.cursor()
+		cur.execute("INSERT INTO AssignmentList (AssignmentName, CourseNumber, DepartmentName, DueDate, AssignmentDescription) VALUES (?,?,?,?,?)", (assignmentName, courseNumber, departmentName, dueDate, assignmentDescription))
 		for email in studentEmails:
 			cur.execute("INSERT INTO AssignmentTable (Email, AssignmentName, Completed, DueDate, AssignmentDescription, CourseNumber, DepartmentName) VALUES (?,?,?,?,?,?,?)", (email[0], assignmentName, "Not Completed", dueDate, assignmentDescription, courseNumber, departmentName,))
 		con.commit()
@@ -247,7 +255,6 @@ def searchUsers(query):
 		result = cur.execute("SELECT * FROM UserTable WHERE Email LIKE (?) OR Name LIKE (?)", (query, query,)).fetchall()
 		con.commit()
 		return result
-
 
 def removeClass(email, departmentName, courseNumber):
 	with sql.connect(database) as con:

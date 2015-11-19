@@ -87,7 +87,7 @@ def createUnapprovedPage():
 @app.route('/professorPage', methods=['GET', 'POST'])
 def professorPage():
 	if request.method == 'POST':
-		if request.form.get('classForm') == 'classForm':
+		if request.form.get('classForm') == 'Create class':
 			email = request.cookies.get('username')
 			className = request.form.get('className', None)
 			courseNumber = request.form.get('courseNumber', None)
@@ -242,6 +242,11 @@ def registration():
 						professorEmail = request.form.get('professorEmailRegister')
 						className = request.form.get('courseNameRegister')
 						courseDescription = request.form.get('courseDescriptionRegister')
+
+						tasks = getTasksForCourse(courseNumber, department)
+
+						for task in tasks:
+							print task
 
 						register(email, professorEmail, className, courseNumber, department, courseDescription)
 
