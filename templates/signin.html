@@ -47,31 +47,6 @@
 					<h2>Sign Up</h2>
 					<p style="color:red">{{signUpError}}</p>
 					<form action="/createAccount" method="post">
-					  <br>
-					  Type of User:
-					  <br>
-					 	<script>
-    						$(document).ready(function() {
-    							$("#accountTypeOpt input[name='accountType']").click(function(){
-    								alert('You clicked radio!');
-    								
-								});
-
-							});
-  						</script>
-
-					  <div id="accountTypeOpt">
-						  <div>
-							<input type="radio" name="accountType" id="profOpt" value="Professor" >
-							<label>Professor</label>
-						  </div>
-						  <div>
-							<input type="radio" name="accountType" id="studentOpt" value="Student" checked>
-							<label>Student</label>
-						  </div>
-						  
-					  </div>
-			  		  <br><br>
 			  		  Name:<br>
 					  <input type="text" name="name" style="width: 25%">
 					  <br>
@@ -84,7 +59,8 @@
 					  Confirm Password:<br>
 					  <input type="password" name="password2" style="width: 50%">
 					  <br><br>
-					  <input type="submit" value="Submit">
+					  <input type="submit" name='signUpStudent' value="Sign up as Student">
+					  <input type="submit" name='signUpProfessor' value="Sign up as Professor">
 					</form>
 
 				</div>

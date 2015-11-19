@@ -249,10 +249,14 @@ def searchUsers(query):
 		return result
 
 
+def removeClass(email, departmentName, courseNumber):
+	with sql.connect(database) as con:
+		cur = con.cursor()
+		cur.execute("DELETE FROM StudentClasses WHERE Email = (?) AND CourseNumber = (?) AND DepartmentName = (?);", (email, courseNumber, departmentName, ))
+		con.commit()
 
-
-
-
-
-
-
+def removeTasks(email, departmentName, courseNumber):
+	with sql.connect(database) as con:
+		cur = con.cursor()
+		cur.execute("DELETE FROM AssignmentTable WHERE Email = (?) AND CourseNumber = (?) AND DepartmentName = (?);", (email, courseNumber, departmentName, ))
+		con.commit()
