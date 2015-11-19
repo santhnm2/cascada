@@ -3,6 +3,7 @@ from models import *
 from Professor import Professor
 import datetime
 import pygal
+import dropbox
 
 app = Flask(__name__)
 
@@ -290,6 +291,26 @@ def barchart():
 	    bar_chart.add('lower', lower)
 	    bar_chart.x_labels = days
 	    return Response(response=bar_chart.render(), content_type='image/svg+xml')
+
+@app.route('/filesystem', methods=['GET', 'POST'])
+def filesystem():
+	print 'filesystem: entry'
+	flow = dropbox.client.DropboxOAuth2FlowNoRedirect('zoqx2h77jpchscl', '4wdckeh84lgfny2')
+
+	# Have the user sign in and authorize this token
+	authorize_url = flow.start()
+	return redirect(authorize_url)
+	# print '1. Go to: ' + authorize_url
+	# print '2. Click "Allow" (you might have to log in first)'
+	# print '3. Copy the authorization code.'
+	# code = raw_input("Enter the authorization code here: ").strip()
+
+	# # This will fail if the user enters an invalid authorization code
+	# access_token, user_id = flow.finish(code)
+
+	# client = dropbox.client.DropboxClient(access_token)
+	# print 'linked account: ', client.account_info()
+
 
 @app.route('/logout', methods=['GET'])
 def logOutFromWebsite():
