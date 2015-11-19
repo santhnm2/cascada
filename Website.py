@@ -243,6 +243,11 @@ def registration():
 						className = request.form.get('courseNameRegister')
 						courseDescription = request.form.get('courseDescriptionRegister')
 
+						tasks = getTasksForCourse(courseNumber, department)
+
+						for task in tasks:
+							print task
+
 						register(email, professorEmail, className, courseNumber, department, courseDescription)
 
 						flash('You are now registered for ' + department + ' ' + courseNumber)
