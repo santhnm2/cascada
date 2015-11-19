@@ -248,7 +248,7 @@ def registration():
 
 					register(email, professorEmail, className, courseNumber, department, courseDescription)
 
-					tasks = getTasksForCourse(courseNumber, department)
+					tasks = getClassAssignments(courseNumber, department)
 
 					now = datetime.datetime.now()
 					currDate = now.strftime("%Y-%m-%d")
