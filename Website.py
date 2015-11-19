@@ -126,9 +126,12 @@ def professorPage():
 			assignments = getClassAssignments(profClass[2], profClass[3])
 			assignmentWithPercents = {}
 			for assignment in assignments:
-				totalCompleted = getTotalCompleted(assignment[1], assignment[5], assignment[6])[0]
-				totalIncompleted = getTotalIncompleted(assignment[1], assignment[5], assignment[6])[0]
-				assignmentWithPercents[assignment] = (totalCompleted*100/(totalCompleted+totalIncompleted))
+				totalCompleted = getTotalCompleted(assignment[0], assignment[1], assignment[2])[0]
+				totalIncompleted = getTotalIncompleted(assignment[0], assignment[1], assignment[2])[0]
+				if (totalCompleted+totalIncompleted) == 0:
+					assignmentWithPercents[assignment] = 0
+				else:
+					assignmentWithPercents[assignment] = (totalCompleted*100/(totalCompleted+totalIncompleted))
 			return render_template('professor.html', currClass=profClass, name=account[3], currAssignments=assignmentWithPercents)
 	else:
 		return render_template('signin.html', loginError="Please sign in as professor to visit this page")
@@ -239,18 +242,21 @@ def registration():
 						flash('You are already registered for ' + department + ' ' + courseNumber)
 						break
 				if not registered:
-						professorEmail = request.form.get('professorEmailRegister')
-						className = request.form.get('courseNameRegister')
-						courseDescription = request.form.get('courseDescriptionRegister')
+					professorEmail = request.form.get('professorEmailRegister')
+					className = request.form.get('courseNameRegister')
+					courseDescription = request.form.get('courseDescriptionRegister')
 
-						tasks = getTasksForCourse(courseNumber, department)
+					register(email, professorEmail, className, courseNumber, department, courseDescription)
 
-						for task in tasks:
-							print task
+					tasks = getTasksForCourse(courseNumber, department)
 
-						register(email, professorEmail, className, courseNumber, department, courseDescription)
+					now = datetime.datetime.now()
+					currDate = now.strftime("%Y-%m-%d")
+					for task in tasks:
+						if task[3] > currDate:
+							addTask(email, task[0], task[1], task[2], task[3], task[4])
 
-						flash('You are now registered for ' + department + ' ' + courseNumber)
+					flash('You are now registered for ' + department + ' ' + courseNumber)
 
 				return render_template('register.html', departments=list(departments.keys()), searchResults=[])
 			elif request.form.get('department'):
