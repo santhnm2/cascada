@@ -87,7 +87,7 @@ def createUnapprovedPage():
 @app.route('/professorPage', methods=['GET', 'POST'])
 def professorPage():
 	if request.method == 'POST':
-		if request.form.get('classForm') == 'classForm':
+		if request.form.get('classForm') == 'Create class':
 			email = request.cookies.get('username')
 			className = request.form.get('className', None)
 			courseNumber = request.form.get('courseNumber', None)
