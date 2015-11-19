@@ -43,6 +43,7 @@ def mainPage():
 @app.route('/createAccount', methods=['POST'])
 def createAccount():
 	if len(get_user(request.form['email'])) > 0:
+		flash(request.form['email'] + ' already in use')
 		return render_template('signin.html', signUpError="Email already exists")
 	accountType = ''
 	if request.form.get('signUpStudent', None):
@@ -50,6 +51,7 @@ def createAccount():
 	elif request.form.get('signUpProfessor', None):
 		accountType = 'Professor'
 	insert_user(request.form['email'], request.form['password'], request.form['name'], accountType)
+	flash('Welcome to Cascada, ' + request.form['name'] + '!\nAn admin will approve your account as soon as possible.')
 	return render_template("signin.html")
 
 @app.route('/adminpage', methods=['GET', 'POST'])

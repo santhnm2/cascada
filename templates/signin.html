@@ -62,7 +62,18 @@
 					  <input type="submit" name='signUpStudent' value="Sign up as Student">
 					  <input type="submit" name='signUpProfessor' value="Sign up as Professor">
 					</form>
-
+					{% with messages = get_flashed_messages() %}
+    					{% if messages %}
+    						<ul class=flashes>
+    							{% for message in messages %}
+    								<div id="myAlert" style="display: none;">{{ message | safe }}</div>
+    								<script type="text/javascript">
+        								window.alert(document.getElementById('myAlert').innerHTML);
+        							</script>
+    							{% endfor %}
+						    </ul>
+  						{% endif %}
+					{% endwith %}
 				</div>
 			</section>
 
