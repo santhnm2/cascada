@@ -65,7 +65,7 @@
    								<td>
    									<form action="/barchart" method="POST">
    										<input type="submit" value="View Distribution">
-   										<input type="hidden" name="assignmentName" value={{row[0]}}>
+   										<input type="hidden" name="assignmentName" value="{{row[0]}}">
    									</form>
    								</td>
         						<td> {{ row[3] }} </td>
@@ -84,6 +84,10 @@
    							</tr>
 						{% endfor %}
 					</table>
+
+					<form action="/classAverages" method="POST" style="margin:2em 0 2em 15%;">
+						<input type="submit" value="View Class Averages">
+					</form>
 
 					<br><br>
 					<form action="/professorPage" method="post">
