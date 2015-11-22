@@ -266,3 +266,22 @@ def removeTasks(email, departmentName, courseNumber):
 		cur = con.cursor()
 		cur.execute("DELETE FROM AssignmentTable WHERE Email = (?) AND CourseNumber = (?) AND DepartmentName = (?);", (email, courseNumber, departmentName, ))
 		con.commit()
+
+def getClassAverages(courseNumber, departmentName):
+	classAverages = [0, 0, 0, 0, 0]
+	with sql.connect(database) as con:
+		cur = con.cursor()
+		result = cur.execute("SELECT DISTINCT Email FROM AssignmentTable WHERE CourseNumber=(?) AND DepartmentName=(?) AND Graded='Graded';", (courseNumber, departmentName, )).fetchall()
+		for student in result:
+			average = cur.execute("SELECT AVG(Grade) FROM AssignmentTable WHERE CourseNumber=(?) AND DepartmentName=(?) AND Graded='Graded' AND Email=(?);", (courseNumber, departmentName, student[0], )).fetchall()[0][0]
+			if average <= 59:
+				classAverages[0]+=1
+			elif average <= 69:
+				classAverages[1]+=1
+			elif average <=79:
+				classAverages[2]+=1
+			elif average <=89:
+				classAverages[3]+=1
+			else:
+				classAverages[4]+=1
+	return classAverages

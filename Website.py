@@ -295,9 +295,12 @@ def barchart():
 @app.route('/classAverages', methods=['GET', 'POST'])
 def classAverages():
 	if request.method == 'POST':
+		courseNumber = request.form.get('courseNumber', None)
+		departmentName = request.form.get('departmentName', None)
+		averages = getClassAverages(courseNumber, departmentName)
 		bar_chart = pygal.Bar(width=500, height=400)
 		bar_chart.title = "Class Averages"
-		lower,days = [1,2,3,4,5],['0-59', '60-69', '70-79', '80-89', '90+']
+		lower,days = averages,['0-59', '60-69', '70-79', '80-89', '90+']
 		bar_chart.add('lower', lower)
 		bar_chart.x_labels = days
 		return Response(response=bar_chart.render(), content_type='image/svg+xml')
