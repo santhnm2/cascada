@@ -33,7 +33,7 @@
 					<header class="major">
 						<h2>Submissions Page</h2>
 					</header>
-
+					{% if sublength > 0 %}
 					<table style="margin: 2em 10% 2em 10%; width: 80%;">
 						<th style="font-weight: bold;">
 							<td style="font-weight: bold;">Email</td>
@@ -61,7 +61,11 @@
    							</tr>
 						{% endfor %}
 					</table>
-
+					{% else %}
+					<header class="major">
+						<h3>No assignments to be graded</h3>
+					</header>
+					{% endif %}
 				</div>
 			</section>
 

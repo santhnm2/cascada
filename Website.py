@@ -196,7 +196,8 @@ def profGradebook():
 			gradeAssignment(grade, feedback, assignmentName, courseNumber, departmentName, email)
 	email = request.cookies.get('username')
 	submissions = getSubmissions(email)
-	return render_template('submissions.html', submissions=submissions)
+	sublength = len(submissions)
+	return render_template('submissions.html', submissions=submissions, sublength = sublength)
 
 @app.route('/message', methods=['GET', 'POST'])
 def getUniqueConversations():
