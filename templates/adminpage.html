@@ -31,11 +31,15 @@
 				<tr>
 					<th>Name</th>
 					<th>Email Address</th>
+					<th>Number of Students</th>
+					<th>Number of Assignments</th>
 				</tr>
 				{% for aprofessor in approved %}
 					<tr>
-						<td>{{ aprofessor.getName() }}</td>
-						<td>{{ aprofessor.getEmailAddress() }}</td>
+						<td>{{ aprofessor[0].getName() }}</td>
+						<td>{{ aprofessor[0].getEmailAddress() }}</td>
+						<td>{{ aprofessor[1][1] }}</td>
+						<td>{{ aprofessor[1][0] }}</td>
 					</tr>
 				{% endfor %}
 			</table>

@@ -68,7 +68,7 @@ def adminPage():
 	approvedProfs = get_approved_professors()
 	unapprovedProfs = get_unapproved_professors()
 	for approved in approvedProfs:
-		approvedProfList.append(Professor(approved[3], approved[0]))
+		approvedProfList.append((Professor(approved[3], approved[0]), getProfStatsForAdmin(approved[0])))
 	for unapproved in unapprovedProfs:
 		unapprovedProfList.append(Professor(unapproved[3], unapproved[0]))
 	return render_template('adminpage.html', approved=approvedProfList, unapproved=unapprovedProfList)
@@ -194,7 +194,8 @@ def profGradebook():
 		departmentName = request.form.get('departmentName', None)
 		if grade.isdigit():
 			gradeAssignment(grade, feedback, assignmentName, courseNumber, departmentName, email)
-	submissions = getSubmissions()
+	email = request.cookies.get('username')
+	submissions = getSubmissions(email)
 	return render_template('submissions.html', submissions=submissions)
 
 @app.route('/message', methods=['GET', 'POST'])

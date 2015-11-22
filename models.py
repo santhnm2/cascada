@@ -166,10 +166,15 @@ def register(email, professorEmail, className, courseNumber, departmentName, cou
 		con.commit()
 		# return result.fetchall()	
 
-def getSubmissions():
+def getSubmissions(email):
 	with sql.connect(database) as con:
 		cur = con.cursor()
-		result = cur.execute("SELECT Email, AssignmentName, DueDate, CourseNumber, DepartmentName FROM AssignmentTable WHERE Graded = 'Not Graded' AND Completed = 'Completed';")
+		result = cur.execute("SELECT CourseNumber, DepartmentName FROM ClassTable WHERE Email=(?);", (email, )).fetchall()
+		courseNumber = result[0][0]
+		departmentName = result[0][1]
+		print courseNumber
+		print departmentName
+		result = cur.execute("SELECT Email, AssignmentName, DueDate, CourseNumber, DepartmentName FROM AssignmentTable WHERE Graded = 'Not Graded' AND Completed = 'Completed' AND CourseNumber=(?) AND DepartmentName=(?);", (courseNumber, departmentName, ))
 		con.commit()
 		return result.fetchall()
 
@@ -285,3 +290,13 @@ def getClassAverages(courseNumber, departmentName):
 			else:
 				classAverages[4]+=1
 	return classAverages
+
+def getProfStatsForAdmin(email):
+	with sql.connect(database) as con:
+		cur = con.cursor()
+		result = cur.execute("SELECT CourseNumber, DepartmentName FROM ClassTable WHERE Email=(?);", (email, )).fetchall()
+		courseNumber = result[0][0]
+		departmentName = result[0][1]
+		numAssignments = cur.execute("SELECT COUNT(DISTINCT AssignmentName) FROM AssignmentTable WHERE CourseNumber=(?) AND DepartmentName=(?);", (courseNumber, departmentName, )).fetchall()[0][0]
+		regStudents = cur.execute("SELECT COUNT(DISTINCT Email) FROM AssignmentTable WHERE CourseNumber=(?) AND DepartmentName=(?);", (courseNumber, departmentName, )).fetchall()[0][0]
+		return (numAssignments, regStudents)
