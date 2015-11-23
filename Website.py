@@ -289,9 +289,9 @@ def barchart():
 	    bar_chart.title = "Assignment grades"
 	    assignmentName = request.form.get('assignmentName', None)
 	    grades = getGradeDistribution(assignmentName)
-	    lower,days = grades,['0-59','60-69', '70-79', '80-89', '90+']
-	    bar_chart.add('lower', lower)
-	    bar_chart.x_labels = days
+	    rangeCount,cutoffs = grades,['0-59','60-69', '70-79', '80-89', '90+']
+	    bar_chart.add('count', rangeCount)
+	    bar_chart.x_labels = cutoffs
 	    return Response(response=bar_chart.render(), content_type='image/svg+xml')
 
 @app.route('/classAverages', methods=['GET', 'POST'])
@@ -302,9 +302,23 @@ def classAverages():
 		averages = getClassAverages(courseNumber, departmentName)
 		bar_chart = pygal.Bar(width=500, height=400)
 		bar_chart.title = "Class Averages"
-		lower,days = averages,['0-59', '60-69', '70-79', '80-89', '90+']
-		bar_chart.add('lower', lower)
-		bar_chart.x_labels = days
+		avgs,cutoffs = averages,['0-59', '60-69', '70-79', '80-89', '90+']
+		bar_chart.add('count', avgs)
+		bar_chart.x_labels = cutoffs
+		return Response(response=bar_chart.render(), content_type='image/svg+xml')
+
+@app.route('/chara', methods=['GET', 'POST'])
+def chara():
+	if request.method == 'POST':
+		courseNumber = request.form.get('courseNumber', None)
+		departmentName = request.form.get('departmentName', None)
+		email = request.cookies.get('username')
+		assignmentNames, assignmentGrades = getStudentGrades(email, courseNumber, departmentName)
+		bar_chart = pygal.Bar(width=800, height=400)
+		bar_chart.title = "Chara"
+		grades,assignmentName = assignmentGrades,assignmentNames
+		bar_chart.add('grades', grades)
+		bar_chart.x_labels = assignmentName
 		return Response(response=bar_chart.render(), content_type='image/svg+xml')
 
 @app.route('/filesystem', methods=['GET', 'POST'])

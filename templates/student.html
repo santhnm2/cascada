@@ -32,26 +32,35 @@
 					</header>
 					<table>
 						<th>
+							<td style="font-weight: bold;"> Course Name </td>
 							<td style="font-weight: bold;"> Department </td>
 							<td style="font-weight: bold;"> Course Number </td>
-							<td style="font-weight: bold;"> Course Name </td>
 							<td style="font-weight: bold;"> Description </td>
 							<td style="font-weight: bold;"> Drop </td>
+							<td style="font-weight: bold;"> View Distribution </td>
+
 						</th>
 	    				{% for row in classList %}
    							<tr>
    								<td> <input type="checkbox"> </td>
+   								<td> {{ row[2] }} </td>
    								<td> {{ row[4] }} </td>
         						<td> {{ row[3] }} </td>
-        						<td> {{ row[2] }} </td>
         						<td> {{ row[5] }} </td>
         						<td>
         							<form method="POST">
-											<input type="submit" value="Drop">
-											<input type="hidden" name="departmentDrop" value="{{ row[4] }}">
-											<input type="hidden" name="courseNumDrop" value="{{ row[3] }}">
-										</form>
+										<input type="submit" value="Drop">
+										<input type="hidden" name="departmentDrop" value="{{ row[4] }}">
+										<input type="hidden" name="courseNumDrop" value="{{ row[3] }}">
+									</form>
         						</td>
+        						<td>
+   									<form action="/chara" method="POST">
+   										<input type="submit" value="View Distribution">
+   										<input type="hidden" name="courseNumber" value="{{row[3]}}">
+   										<input type="hidden" name="departmentName" value="{{row[4]}}">
+   									</form>
+   								</td>
    							</tr>
 						{% endfor %}
 					</table>

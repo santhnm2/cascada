@@ -300,3 +300,17 @@ def getProfStatsForAdmin(email):
 		numAssignments = cur.execute("SELECT COUNT(DISTINCT AssignmentName) FROM AssignmentTable WHERE CourseNumber=(?) AND DepartmentName=(?);", (courseNumber, departmentName, )).fetchall()[0][0]
 		regStudents = cur.execute("SELECT COUNT(DISTINCT Email) FROM AssignmentTable WHERE CourseNumber=(?) AND DepartmentName=(?);", (courseNumber, departmentName, )).fetchall()[0][0]
 		return (numAssignments, regStudents)
+
+def getStudentGrades(email, courseNumber, departmentName):
+	assignmentNames = []
+	assignmentGrades = []
+	with sql.connect(database) as con:
+		cur = con.cursor()
+		result = cur.execute("SELECT AssignmentName, Grade FROM AssignmentTable WHERE Email=(?) AND CourseNumber=(?) AND DepartmentName=(?) AND Graded='Graded';", (email, courseNumber, departmentName, )).fetchall()
+		for assignment in result:
+			assignmentNames.append(assignment[0])
+			assignmentGrades.append(assignment[1])
+		result = cur.execute("SELECT AVG(Grade) FROM AssignmentTable WHERE Email=(?) AND CourseNumber=(?) AND DepartmentName=(?) AND Graded='Graded';", (email, courseNumber, departmentName, )).fetchall()[0][0]
+		assignmentNames.append('Average')
+		assignmentGrades.append(result)
+	return assignmentNames,assignmentGrades
