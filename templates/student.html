@@ -67,6 +67,8 @@
 						<th style="font-weight: bold;">
 							<td style="font-weight: bold;">Task Name</td>
 							<td style="font-weight: bold;">Due Date</td>
+							<td style="font-weight: bold;">Course Number</td>
+							<td style="font-weight: bold;">Department Name</td>
 <!-- 							<td style="font-weight: bold;">Status</td>
  -->							<td style="font-weight: bold;"></td>
 						</th>
@@ -80,8 +82,9 @@
         						    <td><a href={{ row[1] }}> {{ row[1] }} </a></td>
         							<td> {{ row[3] }} </td>
         						{% endif %}
-<!--         						<td> {{ row[2] }} </td> 
- -->        						<td style="width: 20%;">
+        						<td> {{ row[5] }} </td> 
+        						<td> {{ row[6] }} </td> 
+        						<td style="width: 20%;">
 									<form method="POST">
 										<input type="submit" value="Mark As Completed">
 										<input type="hidden" name="assignmentName" value="{{ row[1] }}">
@@ -99,6 +102,8 @@
 						<th style="font-weight: bold;">
 							<td style="font-weight: bold;">Task Name</td>
 							<td style="font-weight: bold;">Due Date</td>
+							<td style="font-weight: bold;">Course Number</td>
+							<td style="font-weight: bold;">Department Name</td>
 							<td style="font-weight: bold;">Graded</td>
 							<td style="font-weight: bold;">Grade</td>
 							<td style="font-weight: bold;">Feedback</td>
@@ -109,6 +114,8 @@
    								<td> <input type="checkbox"> </td>
    								<td> <a href={{ row[0] }}> {{ row[0] }} </a></td>
         						<td> {{ row[1] }} </td>
+        						<td> {{ row[5] }} </td>
+        						<td> {{ row[6] }} </td>
         						<td> {{ row[2] }} </td>
         						<td> {{ row[3] }} </td>
         						<td> {{ row[4] }} </td>
