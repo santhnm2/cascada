@@ -4,15 +4,18 @@ from Professor import Professor
 import datetime
 import pygal
 import dropbox
+import hashlib
 
 app = Flask(__name__)
+global salt
+salt = "3sn34E03rj"
 
 @app.route('/', methods=['GET', 'POST'])
 def mainPage():
 	if request.method == 'POST':
 		account = get_user(request.form['email'])
 		if len(account) > 0:
-			if request.form['password'] == account[0][1]:
+			if checkLoginCreds(account):
 				resp = ""
 				if account[0][2] == "Admin":
 					resp = make_response(redirect('/adminpage'))
@@ -40,6 +43,8 @@ def mainPage():
 		else:
 			return render_template('signin.html')
 
+def checkLoginCreds(account):
+	return account[0][1] == hashlib.sha224(salt + request.form['password']).hexdigest()
 
 @app.route('/createAccount', methods=['POST'])
 def createAccount():
@@ -51,7 +56,10 @@ def createAccount():
 		accountType = 'Student'
 	elif request.form.get('signUpProfessor', None):
 		accountType = 'Professor'
-	insert_user(request.form['email'], request.form['password'], request.form['name'], accountType)
+
+	hashDigest = hashlib.sha224(salt + request.form['password']).hexdigest()
+
+	insert_user(request.form['email'], hashDigest, request.form['name'], accountType)
 	flash('Welcome to Cascada, ' + request.form['name'] + '!\nAn admin will approve your account as soon as possible.')
 	return render_template("signin.html")
 
@@ -168,7 +176,7 @@ def studentPage():
 	else:
 		return render_template('signin.html', loginError='Please sign in as student to visit this page')
 
-@app.route('/<assignment>', methods=['GET', 'POST'])
+@app.route('/Assignment/<assignment>', methods=['GET', 'POST'])
 def discussionBoard(assignment=None):
 	if request.method == 'POST':
 		if request.form.get('submitType') == 'add':

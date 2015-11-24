@@ -85,10 +85,10 @@
    							<tr>
    								<td> <input type="checkbox"> </td>
    								{% if currDate > row[3] %}
-   								    <td style="color:red"><a href={{ row[1] }}> {{ row[1] }} </a></td>
+   								    <td style="color:red"><a href="/Assignment/{{ row[1] }}"> {{ row[1] }} </a></td>
         							<td style="color:red"> {{ row[3] }} </td>
         						{% else %}
-        						    <td><a href={{ row[1] }}> {{ row[1] }} </a></td>
+        						    <td><a href="/Assignment/{{ row[1] }}"> {{ row[1] }} </a></td>
         							<td> {{ row[3] }} </td>
         						{% endif %}
         						<td> {{ row[5] }} </td> 
@@ -121,7 +121,7 @@
 						{% for row in completeTaskList %}
    							<tr>
    								<td> <input type="checkbox"> </td>
-   								<td> <a href={{ row[0] }}> {{ row[0] }} </a></td>
+   								<td> <a href="/Assignment/{{ row[0] }}"> {{ row[0] }} </a></td>
         						<td> {{ row[1] }} </td>
         						<td> {{ row[5] }} </td>
         						<td> {{ row[6] }} </td>

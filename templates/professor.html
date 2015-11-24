@@ -61,7 +61,7 @@
 						{% for row in currAssignments.keys() %}
    							<tr>
    								<td> <input type="checkbox"> </td>
-   								<td> <a href={{ row[0] }}> {{ row[0] }} </a></td>
+   								<td> <a href="/Assignment" + {{ row[0] }}> {{ row[0] }} </a></td>
    								<td>
    									<form action="/barchart" method="POST">
    										<input type="submit" value="View Distribution">
