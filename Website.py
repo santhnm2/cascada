@@ -189,7 +189,7 @@ def discussionBoard(assignment=None):
 			deletePost(postid)
 	discussionList = getDiscussionList(assignment)
 	accountType = get_user(request.cookies.get('username'))[0][2]
-	return render_template('discussion.html', discussionList=discussionList, accountType=accountType)
+	return render_template('discussion.html', discussionList=discussionList, accountType=accountType, assignment=assignment)
 
 @app.route('/gradebook', methods=['GET', 'POST'])
 def profGradebook():
