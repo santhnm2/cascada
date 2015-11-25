@@ -37,7 +37,8 @@
 							<td style="font-weight: bold;"> Course Number </td>
 							<td style="font-weight: bold;"> Description </td>
 							<td style="font-weight: bold;"> Drop </td>
-							<td style="font-weight: bold;"> View Distribution </td>
+							<td style="font-weight: bold;"> Bar Graph </td>
+							<td style="font-weight: bold;"> Radar Graph </td>
 
 						</th>
 	    				{% for row in classList %}
@@ -56,7 +57,14 @@
         						</td>
         						<td>
    									<form action="/chara" method="POST">
-   										<input type="submit" value="View Distribution">
+   										<input type="submit" value="Bar">
+   										<input type="hidden" name="courseNumber" value="{{row[3]}}">
+   										<input type="hidden" name="departmentName" value="{{row[4]}}">
+   									</form>
+   								</td>
+   								<td>
+   									<form action="/radar" method="POST">
+   										<input type="submit" value="Radar">
    										<input type="hidden" name="courseNumber" value="{{row[3]}}">
    										<input type="hidden" name="departmentName" value="{{row[4]}}">
    									</form>

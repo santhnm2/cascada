@@ -311,6 +311,17 @@ def getStudentGrades(email, courseNumber, departmentName):
 			assignmentNames.append(assignment[0])
 			assignmentGrades.append(assignment[1])
 		result = cur.execute("SELECT AVG(Grade) FROM AssignmentTable WHERE Email=(?) AND CourseNumber=(?) AND DepartmentName=(?) AND Graded='Graded';", (email, courseNumber, departmentName, )).fetchall()[0][0]
-		assignmentNames.append('Average')
+		assignmentNames.append('Overall')
 		assignmentGrades.append(result)
 	return assignmentNames,assignmentGrades
+
+def getAverageGrades(assignmentNames, courseNumber, departmentName):
+	averageGrades = []
+	with sql.connect(database) as con:
+		cur = con.cursor()
+		for assignment in assignmentNames[:-1]:
+			result = cur.execute("SELECT AVG(Grade) FROM AssignmentTable WHERE AssignmentName=(?) AND CourseNumber=(?) AND DepartmentName=(?) AND Graded='Graded';", (assignment, courseNumber, departmentName, )).fetchall()[0][0]
+			averageGrades.append(result)
+		allAverage = cur.execute("SELECT AVG(Grade) FROM AssignmentTable WHERE CourseNumber=(?) AND DepartmentName=(?) AND Graded='Graded';", (courseNumber, departmentName, )).fetchall()[0][0]
+		averageGrades.append(allAverage)
+	return averageGrades

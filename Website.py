@@ -322,12 +322,31 @@ def chara():
 		departmentName = request.form.get('departmentName', None)
 		email = request.cookies.get('username')
 		assignmentNames, assignmentGrades = getStudentGrades(email, courseNumber, departmentName)
-		bar_chart = pygal.Bar(width=800, height=400)
+		averageGrades = getAverageGrades(assignmentNames, courseNumber, departmentName)
+		bar_chart = pygal.Bar(width=800, height=400, range=(0, 100))
 		bar_chart.title = "Chara"
 		grades,assignmentName = assignmentGrades,assignmentNames
-		bar_chart.add('grades', grades)
+		grades2,assignmentName = averageGrades,assignmentNames
+		bar_chart.add('My grades', grades)
+		bar_chart.add('Class avg', grades2)
 		bar_chart.x_labels = assignmentName
+
 		return Response(response=bar_chart.render(), content_type='image/svg+xml')
+
+@app.route('/radar', methods=['GET', 'POST'])
+def radar():
+	if request.method == 'POST':
+		courseNumber = request.form.get('courseNumber', None)
+		departmentName = request.form.get('departmentName', None)
+		email = request.cookies.get('username')
+		assignmentNames, assignmentGrades = getStudentGrades(email, courseNumber, departmentName)
+		averageGrades = getAverageGrades(assignmentNames, courseNumber, departmentName)
+		radar_chart = pygal.Radar(range=(0, 100))
+		radar_chart.title = 'Grades'
+		radar_chart.x_labels = assignmentNames
+		radar_chart.add(email, assignmentGrades)
+		radar_chart.add('averages', averageGrades)
+		return Response(response=radar_chart.render(), content_type='image/svg+xml')
 
 @app.route('/filesystem', methods=['GET', 'POST'])
 def filesystem():
