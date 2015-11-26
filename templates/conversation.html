@@ -20,7 +20,7 @@
 					<ul>
 						<li><a href="/">Home</a></li>
 						<li><a href="/gradebook">Gradebook</a></li>
-						<li><a href="elements.html">Elements</a></li>
+						<li><a href="/message">Messages</a></li>
 						<li><a href="/logout" class="button special">Log Out</a></li>
 					</ul>
 				</nav>
@@ -32,9 +32,15 @@
 					<h2>Conversation with {{sentTo}}</h2>
 					{% for message in messages %}
 						{% if message[1] == sentFrom %}
-							<div style="clear: both; float: right; display: block; position: relative;">
-								<h3 style="background-color: #1AD6FD;width: 800px; padding: 10px; border-radius: 25px;">{{message[3]}}</h3>
-							</div>
+							{% if message[4] == 1 %}
+								<div style="clear: both; float: right; display: block; position: relative;">
+									<h3 style="background-color: #1AD6FD;width: 800px; padding: 10px; border-radius: 25px;">{{message[3]}}</h3>
+								</div>
+							{% else %}
+								<div style="clear: both; float: right; display: block; position: relative;">
+									<h3 style="background-color: red;width: 800px; padding: 10px; border-radius: 25px;">{{message[3]}}</h3>
+								</div>
+							{% endif %}
 						{%else%}
 							<div style="clear: both; float: left; display: block; position: relative;">
 								<h3 style="background-color:#DBDDDE;width: 800px; padding: 10px; border-radius: 25px;">{{message[3]}}</h3>

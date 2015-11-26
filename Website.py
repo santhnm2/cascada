@@ -225,6 +225,7 @@ def getConversation():
 		recipient = request.form.get('sentTo', None)
 		if content != "":
 			insertMessage(content, sentFrom, recipient)
+		return redirect('/conversation?sentTo=' + request.form.get('sentTo', None))
 	else:
 		recipient = request.args.get('sentTo')
 	messages = getAllMessages(request.cookies.get('username'), recipient)

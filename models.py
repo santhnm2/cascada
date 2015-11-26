@@ -227,11 +227,16 @@ def getUniqueRecipients(user):
 		return result
 
 def getAllMessages(sentFrom, sentTo):
+	results = ""
 	with sql.connect(database) as con:
 		cur = con.cursor()
-		result = cur.execute("SELECT * FROM Message WHERE (sentFrom=(?) AND sentTo=(?)) OR (sentFrom=(?) AND sentTo=(?)) ", (sentFrom, sentTo, sentTo, sentFrom)).fetchall()
+		results = cur.execute("SELECT * FROM Message WHERE (sentFrom=(?) AND sentTo=(?)) OR (sentFrom=(?) AND sentTo=(?));", (sentFrom, sentTo, sentTo, sentFrom)).fetchall()
+		for result in results:
+			if result[2] == sentFrom:
+				cur.execute("UPDATE Message SET Seen=(?) WHERE Timestamp=(?);", (1, result[0],))
 		con.commit()
-		return result
+
+	return results
 
 def insertMessage(content, sentFrom, sentTo):
 	with sql.connect(database) as con:
