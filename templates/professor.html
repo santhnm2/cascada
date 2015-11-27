@@ -8,8 +8,21 @@
 		<link rel="stylesheet" href="{{url_for('static', filename='css/skel.css') }}" />
 		<link rel="stylesheet" href="{{url_for('static', filename='css/style.css') }}" />
 		<link rel="stylesheet" href="{{url_for('static', filename='css/style-xlarge.css') }}" />
+		<script type=text/javascript src="{{url_for('static', filename='jquery.js') }}"></script>
 	</head>
 	<script>
+	$(document).ready(function(){
+		$( "#detailButton" ).click(function() {
+			if ($("#detailButton").text() == 'Show Details'){
+			  $( "#details" ).show( "slow" );
+			  $( "#detailButton" ).text( "Hide Details");
+			}
+			else{
+			  $( "#details" ).hide( "slow" );
+			  $( "#detailButton" ).text( "Show Details");
+			}
+		});
+	});
 	</script>
 	<body>
 
@@ -32,19 +45,21 @@
 					<header class="major">
 						<h2>Welcome {{name}}!</h2>
 					</header>
-					Class Name:<br>
-					<h3>{{currClass[1]}}</h3>
-					<br>
-					Course Number:<br>
-					<h3>{{currClass[2]}}</h3>
-					<br>
-					Department Name:<br>
-					<h3>{{currClass[3]}}</h3>
-					<br>
-					Course Description:<br>
-					<h3>{{currClass[4]}}</h3>
-					<br><br>
-
+					<div id="details">
+						Class Name:<br>
+						<h3>{{currClass[1]}}</h3>
+						<br>
+						Course Number:<br>
+						<h3>{{currClass[2]}}</h3>
+						<br>
+						Department Name:<br>
+						<h3>{{currClass[3]}}</h3>
+						<br>
+						Course Description:<br>
+						<h3>{{currClass[4]}}</h3>
+						<br><br>
+					</div>
+					<button id="detailButton">Hide Details</button>
 					<header>
 						<h2>Class Assignments:</h2>
 					</header>

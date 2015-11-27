@@ -8,7 +8,42 @@
 		<link rel="stylesheet" href="{{url_for('static', filename='css/skel.css') }}" />
 		<link rel="stylesheet" href="{{url_for('static', filename='css/style.css') }}" />
 		<link rel="stylesheet" href="{{url_for('static', filename='css/style-xlarge.css') }}" />
+		<script type=text/javascript src="{{url_for('static', filename='jquery.js') }}"></script>
 	</head>
+	<script>
+	$(document).ready(function(){
+		$( "#hideCourses" ).click(function() {
+			if ($("#hideCourses").text() == 'Show Courses'){
+			  $( "#courses" ).show( "slow" );
+			  $( "#hideCourses" ).text( "Hide Courses");
+			}
+			else{
+			  $( "#courses" ).hide( "slow" );
+			  $( "#hideCourses" ).text( "Show Courses");
+			}
+		});
+		$( "#hideIncompleted" ).click(function() {
+			if ($("#hideIncompleted").text() == 'Show Incompleted'){
+			  $( "#incompleted" ).show( "slow" );
+			  $( "#hideIncompleted" ).text( "Hide Incompleted");
+			}
+			else{
+			  $( "#incompleted" ).hide( "slow" );
+			  $( "#hideIncompleted" ).text( "Show Incompleted");
+			}
+		});
+		$( "#hideCompleted" ).click(function() {
+			if ($("#hideCompleted").text() == 'Show Completed'){
+			  $( "#completed" ).show( "slow" );
+			  $( "#hideCompleted" ).text( "Hide Completed");
+			}
+			else{
+			  $( "#completed" ).hide( "slow" );
+			  $( "#hideCompleted" ).text( "Show Completed");
+			}
+		});
+	});
+	</script>
 	<body>
 
 		<!-- Header -->
@@ -30,7 +65,8 @@
 					<header class="courses">
 						<h2>Your Courses</h2>
 					</header>
-					<table>
+					<button id="hideCourses">Hide Courses</button>
+					<table id="courses">
 						<th>
 							<td style="font-weight: bold;"> Course Name </td>
 							<td style="font-weight: bold;"> Department </td>
@@ -80,7 +116,8 @@
 					<header>
 						<h2>Your Incomplete Tasks</h2>
 					</header>
-					<table>
+					<button id="hideIncompleted">Hide Incompleted</button>
+					<table id="incompleted">
 						<th style="font-weight: bold;">
 							<td style="font-weight: bold;">Task Name</td>
 							<td style="font-weight: bold;">Due Date</td>
@@ -115,7 +152,8 @@
 					<header>
 						<h2>Your Completed Tasks</h2>
 					</header>
-					<table>
+					<button id="hideCompleted">Hide Completed</button>
+					<table id="completed">
 						<th style="font-weight: bold;">
 							<td style="font-weight: bold;">Task Name</td>
 							<td style="font-weight: bold;">Due Date</td>
