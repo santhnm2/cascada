@@ -22,6 +22,21 @@
 			  $( "#detailButton" ).text( "Show Details");
 			}
 		});
+		$("#nameHead").hover(function(){
+			var num = Math.floor(Math.random() * 5) + 1;
+			if (num == 0)
+	        	$("#nameHead").css("color", "red");
+	        else if (num == 1)
+	        	$("#nameHead").css("color", "orange");
+	        else if (num == 2)
+	        	$("#nameHead").css("color", "yellow");
+	        else if (num == 3)
+	        	$("#nameHead").css("color", "green");
+	        else if (num == 4)
+	        	$("#nameHead").css("color", "blue");
+	        else
+	        	$("#nameHead").css("color", "purple");
+    	});
 	});
 	</script>
 	<body>
@@ -43,7 +58,7 @@
 			<section id="main" class="wrapper">
 				<div class="container">
 					<header class="major">
-						<h2>Welcome {{name}}!</h2>
+						<h2 id="nameHead">Welcome {{name}}!</h2>
 					</header>
 					<div id="details">
 						Class Name:<br>
