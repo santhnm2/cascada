@@ -300,11 +300,14 @@ def getProfStatsForAdmin(email):
 	with sql.connect(database) as con:
 		cur = con.cursor()
 		result = cur.execute("SELECT CourseNumber, DepartmentName FROM ClassTable WHERE Email=(?);", (email, )).fetchall()
-		courseNumber = result[0][0]
-		departmentName = result[0][1]
-		numAssignments = cur.execute("SELECT COUNT(DISTINCT AssignmentName) FROM AssignmentTable WHERE CourseNumber=(?) AND DepartmentName=(?);", (courseNumber, departmentName, )).fetchall()[0][0]
-		regStudents = cur.execute("SELECT COUNT(DISTINCT Email) FROM AssignmentTable WHERE CourseNumber=(?) AND DepartmentName=(?);", (courseNumber, departmentName, )).fetchall()[0][0]
-		return (numAssignments, regStudents)
+		if len(result) > 0:
+			courseNumber = result[0][0]
+			departmentName = result[0][1]
+			numAssignments = cur.execute("SELECT COUNT(DISTINCT AssignmentName) FROM AssignmentTable WHERE CourseNumber=(?) AND DepartmentName=(?);", (courseNumber, departmentName, )).fetchall()[0][0]
+			regStudents = cur.execute("SELECT COUNT(DISTINCT Email) FROM AssignmentTable WHERE CourseNumber=(?) AND DepartmentName=(?);", (courseNumber, departmentName, )).fetchall()[0][0]
+			return (numAssignments, regStudents)
+		else:
+			return (0, 0)
 
 def getStudentGrades(email, courseNumber, departmentName):
 	assignmentNames = []
