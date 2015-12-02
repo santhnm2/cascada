@@ -3,12 +3,19 @@ from models import *
 from Professor import Professor
 import datetime
 import pygal
-import dropbox
 import hashlib
+from boxsdk import OAuth2
+import os
+from boxview import boxview
+import urlparse
+from time import sleep
+import webbrowser
 
 app = Flask(__name__)
 global salt
 salt = "3sn34E03rj"
+view_api_key = 'xlrf76qka1j7egv5b7338kcmpthxu455'
+
 
 @app.route('/', methods=['GET', 'POST'])
 def mainPage():
@@ -87,6 +94,36 @@ def checkAdmin(req):
 		return False
 	return True
 
+def createBoxView(inputFile):
+	api = boxview.BoxView(view_api_key)
+
+	doc = api.create_document(file=inputFile, name=inputFile)
+
+	doc_id = doc['id']
+
+	bool(api.ready_to_view(doc_id))
+	
+	retry = 0
+	max_retry = 3
+
+	while True:
+		try:
+			session = api.create_session(doc_id, duration=300)
+
+			ses_id = session['id']
+
+			return api.get_session_url(ses_id)
+
+		except boxview.RetryAfter as e:
+			retry += 1
+			if retry > max_retry:
+				break
+			else:
+				sleep(e.seconds)
+
+	return ''
+
+
 @app.route('/createClass', methods=['GET', 'POST'])
 def createClassPage():
 	return render_template('createClass.html')
@@ -110,13 +147,21 @@ def professorPage():
 			assignmentName = request.form.get('assignmentName', None)
 			dueDate = request.form.get('dueDates', None)
 			assignmentDescription = request.form.get('assignmentDescription', None)
+			inputFile = request.form.get('inputFile', None)
+			print 'inputFile = ' + inputFile
+			fileLink = ''
+			if not os.path.exists(inputFile):
+				fileLink = ''
+			else:
+				fileLink = createBoxView(inputFile)
+			print 'fileLink = ' + fileLink
 			
 			vals = getMyCourse(request.cookies.get('username'))
 			courseNumber = vals[0]
 			departmentName = vals[1]
 
 			students = getStudents(request.cookies.get('username'), courseNumber, departmentName)
-			createTask(students, assignmentName, dueDate, assignmentDescription, courseNumber, departmentName)
+			createTask(students, assignmentName, dueDate, assignmentDescription, courseNumber, departmentName, fileLink)
 		elif request.form.get('extendForm') == 'extendForm':
 			assignmentName = request.form.get('assignmentName', None)
 			courseNumber = request.form.get('courseNumber', None)
@@ -136,7 +181,9 @@ def professorPage():
 			profClass = getClass(account[0])[0] 
 			assignments = getClassAssignments(profClass[2], profClass[3])
 			assignmentWithPercents = {}
+			print 'Assignments:'
 			for assignment in assignments:
+				print assignment
 				totalCompleted = getTotalCompleted(assignment[0], assignment[1], assignment[2])[0]
 				totalIncompleted = getTotalIncompleted(assignment[0], assignment[1], assignment[2])[0]
 				if (totalCompleted+totalIncompleted) == 0:
@@ -268,7 +315,7 @@ def registration():
 					currDate = now.strftime("%Y-%m-%d")
 					for task in tasks:
 						if task[3] > currDate:
-							addTask(email, task[0], task[1], task[2], task[3], task[4])
+							addTask(email, task[0], task[1], task[2], task[3], task[4], task[5])
 
 					flash('You are now registered for ' + department + ' ' + courseNumber)
 
@@ -349,24 +396,76 @@ def radar():
 		radar_chart.add('averages', averageGrades)
 		return Response(response=radar_chart.render(), content_type='image/svg+xml')
 
+@app.route('/fileauth', methods=['GET', 'POST'])
+def fileauth():
+	print 'fileauth: entry'
+	oauth = OAuth2(
+    	client_id='58abq19uyla3yp3v2wyexneua39op5w0',
+    	client_secret='m9TJprb3aPvSueCJ0RsQYmvxUMoVmzUZ'
+	)
+
+	print 'fileauth: did oauth'
+
+	auth_url, csrf_token = oauth.get_authorization_url('http://127.0.0.1:5000/filesystem')
+
+	print 'fileauth: auth_url = ' + auth_url
+	print 'fileauth: csrf_token = ' + csrf_token
+
+	#return redirect(auth_url)
+
+	webbrowser.open(auth_url)
+
+	print 'fileauth: finished opening auth_url'
+
+	return 'OK FILEAUTH'
+
+
+
+
 @app.route('/filesystem', methods=['GET', 'POST'])
 def filesystem():
 	print 'filesystem: entry'
-	flow = dropbox.client.DropboxOAuth2FlowNoRedirect('zoqx2h77jpchscl', '4wdckeh84lgfny2')
+	# parsed = urlparse.urlparse(request.url)
+	# csrf_token = urlparse.parse_qs(parsed.query)['state']
+	# return 'OK FILESYSTEM'
 
-	# Have the user sign in and authorize this token
-	authorize_url = flow.start()
-	return redirect(authorize_url)
-	# print '1. Go to: ' + authorize_url
-	# print '2. Click "Allow" (you might have to log in first)'
-	# print '3. Copy the authorization code.'
-	# code = raw_input("Enter the authorization code here: ").strip()
+	api = boxview.BoxView(view_api_key)
 
-	# # This will fail if the user enters an invalid authorization code
-	# access_token, user_id = flow.finish(code)
+	doc = api.create_document(file='Website.py', name='Website.py')
 
-	# client = dropbox.client.DropboxClient(access_token)
-	# print 'linked account: ', client.account_info()
+	# doc = api.create_document(url='https://app.box.com/files/0/f/0/1/f_45233288421')
+
+	doc_id = doc['id']
+
+	print doc_id
+
+	bool(api.ready_to_view(doc_id))
+	
+	retry = 0
+	max_retry = 3
+
+	while True:
+		try:
+			session = api.create_session(doc_id, duration=300)
+
+			ses_id = session['id']
+
+			print ses_id
+
+			print api.get_session_url(ses_id)
+
+			break
+
+		except boxview.RetryAfter as e:
+			retry += 1
+			if retry > max_retry:
+				raise
+			else:
+				sleep(e.seconds)
+
+
+	return 'OK'
+
 
 
 @app.route('/logout', methods=['GET'])

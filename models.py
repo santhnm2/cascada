@@ -79,7 +79,7 @@ def getTasksForStudent(emailAddress):
 def getCompletedTasksForStudent(emailAddress):
 	with sql.connect(database) as con:
 		cur = con.cursor()
-		result = cur.execute("SELECT AssignmentName, DueDate, Graded, Grade, Feedback, CourseNumber, DepartmentName FROM AssignmentTable WHERE Email = (?) AND Completed='Completed';", (emailAddress,))
+		result = cur.execute("SELECT AssignmentName, DueDate, Graded, Grade, Feedback, CourseNumber, DepartmentName, FileLink FROM AssignmentTable WHERE Email = (?) AND Completed='Completed';", (emailAddress,))
 		con.commit()
 		return result.fetchall()	
 
@@ -105,18 +105,18 @@ def getStudents(professorEmail, courseNumber, departmentName):
 		con.commit()
 		return result.fetchall()
 
-def createTask(studentEmails, assignmentName, dueDate, assignmentDescription, courseNumber, departmentName):
+def createTask(studentEmails, assignmentName, dueDate, assignmentDescription, courseNumber, departmentName, fileLink):
 	with sql.connect(database) as con:
 		cur = con.cursor()
-		cur.execute("INSERT INTO AssignmentList (AssignmentName, CourseNumber, DepartmentName, DueDate, AssignmentDescription) VALUES (?,?,?,?,?)", (assignmentName, courseNumber, departmentName, dueDate, assignmentDescription))
+		cur.execute("INSERT INTO AssignmentList (AssignmentName, CourseNumber, DepartmentName, DueDate, AssignmentDescription, FileLink) VALUES (?,?,?,?,?,?)", (assignmentName, courseNumber, departmentName, dueDate, assignmentDescription, fileLink,))
 		for email in studentEmails:
-			cur.execute("INSERT INTO AssignmentTable (Email, AssignmentName, Completed, DueDate, AssignmentDescription, CourseNumber, DepartmentName) VALUES (?,?,?,?,?,?,?)", (email[0], assignmentName, "Not Completed", dueDate, assignmentDescription, courseNumber, departmentName,))
+			cur.execute("INSERT INTO AssignmentTable (Email, AssignmentName, Completed, DueDate, AssignmentDescription, CourseNumber, DepartmentName, FileLink) VALUES (?,?,?,?,?,?,?,?)", (email[0], assignmentName, "Not Completed", dueDate, assignmentDescription, courseNumber, departmentName,fileLink,))
 		con.commit()
 
-def addTask(email, assignmentName, courseNumber, departmentName, dueDate, assignmentDescription):
+def addTask(email, assignmentName, courseNumber, departmentName, dueDate, assignmentDescription, fileLink):
 	with sql.connect(database) as con:
 		cur = con.cursor()
-		cur.execute("INSERT INTO AssignmentTable (Email, AssignmentName, Completed, DueDate, AssignmentDescription, CourseNumber, DepartmentName) VALUES (?,?,?,?,?,?,?)", (email, assignmentName, "Not Completed", dueDate, assignmentDescription, courseNumber, departmentName,))
+		cur.execute("INSERT INTO AssignmentTable (Email, AssignmentName, Completed, DueDate, AssignmentDescription, CourseNumber, DepartmentName, FileLink) VALUES (?,?,?,?,?,?,?,?)", (email, assignmentName, "Not Completed", dueDate, assignmentDescription, courseNumber, departmentName, fileLink,))
 		con.commit()	
 
 def markAsCompleted(email, assignmentName, classNum):

@@ -83,6 +83,7 @@
 							<td style="font-weight: bold;">Task Name</td>
 							<td style="font-weight: bold;">Distribution</td>
 							<td style="font-weight: bold;">Due Date</td>
+							<td style="font-weight: bold;">File Link</td>
 							<!-- <td style="font-weight: bold;">Status</td> -->
 							<td style="font-weight: bold;">Progress</td>
 							<td style="font-weight: bold;">Extend Deadline</td>
@@ -98,7 +99,12 @@
    										<input type="hidden" name="assignmentName" value="{{row[0]}}">
    									</form>
    								</td>
-        						<td> {{ row[3] }} </td>
+   								<td>{{ row[3] }}</td>
+        						{% if row[5] %}
+        							<td><a href={{ row[5] }}>Link</a></td>      						
+        						{% else %}
+        							<td>{{ row[5] }}</td>
+        						{% endif %}
         						<!-- <td> {{ row[2] }} </td> -->
         						<td> <progress value="{{currAssignments[row]}}" max="100"> </progress></td>
         						<form action="/professorPage" method="post">
@@ -140,7 +146,7 @@
 					</form>
 
 					<form action="/filesystem" method="post">
-						<input type="submit" value="Test Dropbox">
+						<input type="submit" value="Test Box">
 					</form>
 
 				</div>
